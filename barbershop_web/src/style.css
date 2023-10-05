@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100&family=Oswald:wght@200&family=Permanent+Marker&family=Rubik+Gemstones&display=swap");
+
+/* src/styles/fonts.css */
+
+@font-face {
+  font-family: "Permanent Marker";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Permanent Marker"), local("PermanentMarker-Regular"),
+    url("https://fonts.gstatic.com/s/permanentmarker/v11/uUyYrYPMqctQ5ISe1bSlMKJ0RrBREr20Rkjplz5kTFo.woff2")
+      format("woff2");
+}
+
+.your-permanent-marker-text {
+  font-family: "Permanent Marker", cursive;
+}
+
+:root {
+  --primary-dark: #5651e5;
+  --primary-light: #709dff;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-[Poppins];
+  }
+
+  li {
+    @apply p-4 text-sm;
+  }
+
+  .custom-button {
+    @apply px-4 py-2 border bg-gradient-to-r from-[var(--primary-dark)] to-[var(--primary-light)] text-white rounded-xl;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .custom-button:hover {
+    transform: scale(1.05); /* Increase the size on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on hover */
+  }
+
+  h2 {
+    @apply text-xl font-bold;
+  }
+}
