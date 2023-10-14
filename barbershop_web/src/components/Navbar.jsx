@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { FaBars, FaFacebookF, FaInstagram } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react'
+import { FaBars, FaFacebookF, FaInstagram } from 'react-icons/fa'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
-  const [nav, setNav] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
+  const [nav, setNav] = useState(false)
+  const [isSticky, setIsSticky] = useState(false)
+  const navigate = useNavigate()
 
   const handleNav = () => {
-    setNav(!nav);
-  };
+    setNav(!nav)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      const scrollY = window.scrollY
       // Define a threshold (e.g., 50 pixels) to trigger the sticky behavior.
-      const threshold = 50;
-      setIsSticky(scrollY > threshold);
-    };
+      const threshold = 50
+      setIsSticky(scrollY > threshold)
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
     // Clean up the event listener on unmount
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const navbarStyle = isSticky
     ? {
@@ -35,17 +37,20 @@ const Navbar = () => {
         boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)', // Add a shadow if desired
         zIndex: 100,
       }
-    : {};
+    : {}
+
+  const handleHomeClick = () => {
+    // Navigate to the home route without triggering a full-page reload
+    navigate('/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
-    <div className="w-full min-h-[50px]" style={navbarStyle}>
+    <div className='w-full min-h-[50px]' style={navbarStyle}>
       {/* Your Navbar content */}
-      <div className="flex justify-between items-center z-10 text-white bg-gray-700/80 z-50">
+      <div className='flex justify-between items-center z-10 text-white bg-gray-700/80 z-50'>
         {/* Mobile menu icon */}
-        <div
-          onClick={handleNav}
-          className="sm:hidden cursor-pointer p-4"
-        >
+        <div onClick={handleNav} className='sm:hidden cursor-pointer p-4'>
           <FaBars size={20} />
         </div>
 
@@ -55,37 +60,39 @@ const Navbar = () => {
           } sm:flex sm:space-x-4 sm:items-center px-4`}
         >
           <li>
-            <a href="/">Home</a>
+            <Link to='/' onClick={handleHomeClick}>
+              Home
+            </Link>
           </li>
           <li>
-            <a href="#gallery">Gallery</a>
+            <a href='#gallery'>Gallery</a>
           </li>
           <li>
-            <a href="#contact">Contact</a>
+            <a href='#contact'>Contact</a>
           </li>
         </ul>
 
-        <div className="flex justify-between">
+        <div className='flex justify-between'>
           <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mx-4"
+            href='https://facebook.com'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='mx-4'
           >
             <FaFacebookF />
           </a>
           <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mx-4"
+            href='https://instagram.com'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='mx-4'
           >
             <FaInstagram />
           </a>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
