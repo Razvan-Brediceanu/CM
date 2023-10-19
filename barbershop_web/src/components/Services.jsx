@@ -25,7 +25,9 @@ function ServicesComponent() {
 
   return (
     <div className='container mx-auto mt-8'>
-      <h2 className='text-3xl font-bold mb-4'>Our Services</h2>
+      <h2 className='text-3xl font-bold mb-4 text-center'>
+        Serviciile Noastre
+      </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {servicesData.map((service) => (
           <div
@@ -34,7 +36,7 @@ function ServicesComponent() {
           >
             <h3 className='text-xl font-semibold mb-2'>{service.title}</h3>
             <p className='text-gray-600 mb-4'>{service.description}</p>
-            <p className='text-green-500 font-bold'>Price: {service.price}</p>
+            <p className='text-green-500 font-bold'>Pret: {service.price}</p>
           </div>
         ))}
       </div>

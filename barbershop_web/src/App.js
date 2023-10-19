@@ -7,7 +7,9 @@ import Hero from './components/Hero'
 import Navbar from './components/Navbar'
 import TopBar from './components/topBar'
 import RegisterForm from './components/RegisterForm'
+import LoginForm from './components/LoginForm'
 import ServicesComponent from './components/Services'
+import CoursesPage from './components/CoursesPage'
 
 function App() {
   const [isLoginPage, setIsLoginPage] = useState(false)
@@ -23,8 +25,10 @@ function App() {
   }
 
   useEffect(() => {
-    // Reset isLoginPage when component mounts
-    setIsLoginPage(location.pathname === '/register')
+    // Reset isLoginPage when the component mounts
+    setIsLoginPage(
+      location.pathname === '/register' || location.pathname === '/login'
+    )
   }, [location.pathname])
 
   return (
@@ -52,9 +56,13 @@ function App() {
           path='/register'
           element={<RegisterForm setIsLoginPage={handleNavigateBack} />}
         />
-        {/* Add the route for "/services" */}
+        <Route
+          path='/login'
+          element={<LoginForm setIsLoginPage={handleNavigateBack} />}
+        />
+
         <Route path='/Services' element={<ServicesComponent />} />
-        {/* ... add more routes as needed ... */}
+        <Route path='/courses' element={<CoursesPage />} />
       </Routes>
     </div>
   )
