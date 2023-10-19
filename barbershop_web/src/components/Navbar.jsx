@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FaBars, FaFacebookF, FaInstagram } from 'react-icons/fa'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Navbar = () => {
   const [nav, setNav] = useState(false)
   const [isSticky, setIsSticky] = useState(false)
-  const navigate = useNavigate()
+
+  const location = useLocation()
 
   const handleNav = () => {
     setNav(!nav)
@@ -27,6 +28,13 @@ const Navbar = () => {
     }
   }, [])
 
+  const handleHomeClick = () => {
+    if (location.pathname === '/') {
+      // Scroll to the top only if you are already on the home page
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   const navbarStyle = isSticky
     ? {
         position: 'fixed',
@@ -38,12 +46,6 @@ const Navbar = () => {
         zIndex: 100,
       }
     : {}
-
-  const handleHomeClick = () => {
-    // Navigate to the home route without triggering a full-page reload
-    navigate('/')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
 
   return (
     <div className='w-full min-h-[50px]' style={navbarStyle}>
@@ -60,15 +62,25 @@ const Navbar = () => {
           } sm:flex sm:space-x-4 sm:items-center px-4`}
         >
           <li>
-            <Link to='/' onClick={handleHomeClick}>
+            <Link
+              to='/'
+              onClick={handleHomeClick}
+              className={`${
+                location.pathname === '/' ? 'font-bold text-white' : ''
+              }`}
+            >
               Home
             </Link>
           </li>
           <li>
-            <a href='#gallery'>Gallery</a>
+            <a href='/#gallery' className='hover:opacity-75'>
+              Gallery
+            </a>
           </li>
           <li>
-            <a href='#contact'>Contact</a>
+            <a href='/#contact' className='hover:opacity-75'>
+              Contact
+            </a>
           </li>
         </ul>
 
