@@ -7,6 +7,7 @@ import Hero from './components/Hero'
 import Navbar from './components/Navbar'
 import TopBar from './components/topBar'
 import RegisterForm from './components/RegisterForm'
+import ServicesComponent from './components/Services'
 
 function App() {
   const [isLoginPage, setIsLoginPage] = useState(false)
@@ -51,6 +52,8 @@ function App() {
           path='/register'
           element={<RegisterForm setIsLoginPage={handleNavigateBack} />}
         />
+        {/* Add the route for "/services" */}
+        <Route path='/Services' element={<ServicesComponent />} />
         {/* ... add more routes as needed ... */}
       </Routes>
     </div>
