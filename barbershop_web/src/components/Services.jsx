@@ -24,7 +24,7 @@ function ServicesComponent() {
   ]
 
   return (
-    <div className='container mx-auto mt-8'>
+    <div className='container mx-auto mt-8 px-4 lg:px-8 font-bold your-permanent-marker-text'>
       <h2 className='text-3xl font-bold mb-4 text-center'>
         Serviciile Noastre
       </h2>

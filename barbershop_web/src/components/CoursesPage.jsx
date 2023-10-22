@@ -23,7 +23,7 @@ const CoursesPage = () => {
   ]
 
   return (
-    <div className='container mx-auto my-10'>
+    <div className='container mx-auto my-10 font-bold your-permanent-marker-text'>
       <h2 className='text-3xl font-semibold mb-8 text-center'>
         Cursuri Musat Signature
       </h2>
