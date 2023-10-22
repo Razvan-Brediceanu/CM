@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import backImage from '../images/LoginRegister2.jpg'
 import { Link } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
 
@@ -33,7 +34,7 @@ const LoginForm = ({ setIsLoginPage }) => {
       console.log('Login successful', response.data)
 
       // Provide feedback to the user (e.g., redirect to home page)
-      // You might use React Router for this.
+
       setShouldRedirect(true)
 
       // Clear the form after successful login
@@ -70,10 +71,19 @@ const LoginForm = ({ setIsLoginPage }) => {
     return <Navigate to='/' replace />
   }
 
+  const backgroundStyles = {
+    backgroundImage: `url(${backImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div
+      className='flex justify-center items-center h-screen'
+      style={backgroundStyles}
+    >
       <form
-        className='w-1/2 bg-white p-8 rounded shadow-md'
+        className='w-1/3 bg-white p-8 rounded shadow-md'
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }} // Adjust the width here (e.g., w-1/3)
         onSubmit={handleLoginSubmit}
         disabled={isLoading}
       >

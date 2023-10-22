@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Navigate } from 'react-router-dom'
+import backImage from '../images/LoginRegister2.jpg'
 
 const RegisterForm = ({ setIsLoginPage }) => {
   const [registrationData, setRegistrationData] = useState({
@@ -79,10 +80,20 @@ const RegisterForm = ({ setIsLoginPage }) => {
     return <Navigate to='/' replace />
   }
 
+  const backgroundStyles = {
+    backgroundImage: `url(${backImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }
+
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div
+      className='flex justify-center items-center h-screen'
+      style={backgroundStyles}
+    >
       <form
-        className='w-1/2 bg-white p-8 rounded shadow-md'
+        className='w-1/3 bg-white p-8 rounded shadow-md'
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
         onSubmit={handleRegistrationSubmit}
         disabled={isLoading}
       >
