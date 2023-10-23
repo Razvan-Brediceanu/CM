@@ -92,7 +92,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
       style={backgroundStyles}
     >
       <form
-        className='w-1/3 bg-white p-8 rounded shadow-md'
+        className='w-full sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-white p-8 rounded shadow-md'
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
         onSubmit={handleRegistrationSubmit}
         disabled={isLoading}
