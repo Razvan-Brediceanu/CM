@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const userSchema = new Schema(
   {
@@ -18,11 +18,15 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    refreshToken: {
+      type: String,
+      unique: true,
+    },
   },
   {
     timestamps: true,
   }
-);
+)
 
 // Automatically creates a collection based on the name of the model
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema)

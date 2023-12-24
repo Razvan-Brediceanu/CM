@@ -1,26 +1,36 @@
-// src/components/CoursesPage.js
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CourseCard from './CourseCard'
+import axios from 'axios'
 
 const CoursesPage = () => {
-  const courses = [
-    {
-      title: 'Course 1',
-      description: 'Description for Course 1',
-      videoUrl: 'https://www.youtube.com/embed/your-video-id-1',
-    },
-    {
-      title: 'Course 2',
-      description: 'Description for Course 2',
-      videoUrl: 'https://www.youtube.com/embed/your-video-id-2',
-    },
-    {
-      title: 'Course 3',
-      description: 'Description for Course 3',
-      videoUrl: 'https://www.youtube.com/embed/your-video-id-2',
-    },
-    // Add more courses as needed
-  ]
+  const [courses, setCourses] = useState([])
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    // Fetch user data and courses when the component mounts
+    const fetchUserData = async () => {
+      try {
+        // Assuming your backend API provides user data
+        const response = await axios.get('http://localhost:4000/user')
+        setUserData(response.data)
+      } catch (error) {
+        console.error('Error fetching user data', error)
+      }
+    }
+
+    const fetchCourses = async () => {
+      try {
+        // Assuming your backend API provides a list of courses
+        const response = await axios.get('http://localhost:4000/courses')
+        setCourses(response.data)
+      } catch (error) {
+        console.error('Error fetching courses', error)
+      }
+    }
+
+    fetchUserData()
+    fetchCourses()
+  }, [])
 
   return (
     <div className='container mx-auto my-10 font-bold your-permanent-marker-text'>
@@ -29,7 +39,13 @@ const CoursesPage = () => {
       </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {courses.map((course, index) => (
-          <CourseCard key={index} {...course} />
+          <CourseCard
+            key={index}
+            {...course}
+            isUnlocked={
+              userData && userData.subscriptions.includes(course.title)
+            }
+          />
         ))}
       </div>
     </div>

@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100&family=Oswald:wght@200&family=Permanent+Marker&family=Rubik+Gemstones&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100&family=Oswald:wght@200&family=Permanent+Marker&family=Rubik+Gemstones&display=swap');
 
 /* src/styles/fonts.css */
 
 @font-face {
-  font-family: "Permanent Marker";
+  font-family: 'Permanent Marker';
   font-style: normal;
   font-weight: normal;
-  src: local("Permanent Marker"), local("PermanentMarker-Regular"),
-    url("https://fonts.gstatic.com/s/permanentmarker/v11/uUyYrYPMqctQ5ISe1bSlMKJ0RrBREr20Rkjplz5kTFo.woff2")
-      format("woff2");
+  src: local('Permanent Marker'), local('PermanentMarker-Regular'),
+    url('https://fonts.gstatic.com/s/permanentmarker/v11/uUyYrYPMqctQ5ISe1bSlMKJ0RrBREr20Rkjplz5kTFo.woff2')
+      format('woff2');
 }
 
 .your-permanent-marker-text {
-  font-family: "Permanent Marker", cursive;
+  font-family: 'Permanent Marker', cursive;
 }
 
 :root {
@@ -49,5 +49,18 @@
 
   h2 {
     @apply text-xl font-bold;
+  }
+
+  /* Add this to your CSS or use a styling library like Tailwind CSS */
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db; /* You can choose your own color */
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 }

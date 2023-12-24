@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Link, Navigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
-import { Link } from 'react-router-dom'
-import { Navigate } from 'react-router-dom'
 
 const LoginForm = ({ setIsLoginPage }) => {
   const [loginData, setLoginData] = useState({
@@ -31,17 +30,34 @@ const LoginForm = ({ setIsLoginPage }) => {
         loginData
       )
 
-      console.log('Login successful', response.data)
+      // Log the entire response object to the console
+      console.log('Login response:', response)
 
-      // Provide feedback to the user (e.g., redirect to home page)
+      // Log the data from the response to understand its structure
+      console.log('Response data:', response.data)
 
-      setShouldRedirect(true)
+      if (response.data && response.data.token) {
+        // Log the access token from the response to the console
+        console.log('Access Token:', response.data.token)
 
-      // Clear the form after successful login
-      setLoginData({
-        email: '',
-        password: '',
-      })
+        // Store the refresh token in local storage
+        localStorage.setItem('refreshToken', response.data.refreshToken)
+        // Store the access token in local storage
+        localStorage.setItem('jwtToken', response.data.token)
+
+        // Provide feedback to the user (e.g., redirect to home page)
+        setShouldRedirect(true)
+
+        // Clear the form after successful login
+        setLoginData({
+          email: '',
+          password: '',
+        })
+      } else {
+        console.error('Response data:', response.data)
+        console.error('Access token is missing in the response.')
+        throw new Error('Access token is missing in the response.')
+      }
     } catch (error) {
       console.error('Login failed', error)
       setLoginError(
@@ -68,7 +84,7 @@ const LoginForm = ({ setIsLoginPage }) => {
   }
 
   if (shouldRedirect) {
-    return <Navigate to='/' replace />
+    return <Navigate to='/profile' replace />
   }
 
   const backgroundStyles = {
@@ -76,6 +92,7 @@ const LoginForm = ({ setIsLoginPage }) => {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }
+
   return (
     <div
       className='flex justify-center items-center h-screen'

@@ -1,35 +1,34 @@
-// server.js
-require("dotenv").config({ path: __dirname + "/.env" });
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+require('dotenv').config()
 
-console.log("MONGO_URI:", process.env.MONGO_URI);
+const app = express()
+const PORT = process.env.PORT || 4000
 
-const express = require("express");
-const mongoose = require("mongoose");
-const usersRoutes = require("./routes/users");
-const cors = require("cors");
+// Middleware
+app.use(cors())
+app.use(express.json())
 
-const app = express();
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+const connection = mongoose.connection
 
-app.use(cors());
-app.use(express.json());
+connection.once('open', () => {
+  console.log('Connected to MongoDB')
+})
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+// Routes
+const userRouter = require('./routes/users')
+const refreshTokenRouter = require('./routes/refreshToken')
 
-app.use("/user/register", usersRoutes);
+app.use('/user', userRouter)
+app.use('/auth/refresh', refreshTokenRouter) // Use refreshTokenRouter for refreshing tokens
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Connected to DB & listening on port ${process.env.PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error.message);
-  });
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
+})

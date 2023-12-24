@@ -77,7 +77,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
   }
 
   if (shouldRedirect) {
-    return <Navigate to='/' replace />
+    return <Navigate to='/login' replace />
   }
 
   const backgroundStyles = {

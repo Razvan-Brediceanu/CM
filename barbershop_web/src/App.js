@@ -10,6 +10,7 @@ import RegisterForm from './components/RegisterForm'
 import LoginForm from './components/LoginForm'
 import ServicesComponent from './components/Services'
 import CoursesPage from './components/CoursesPage'
+import UserProfile from './components/UserProfile'
 
 function App() {
   const [isLoginPage, setIsLoginPage] = useState(false)
@@ -60,7 +61,8 @@ function App() {
           path='/login'
           element={<LoginForm setIsLoginPage={handleNavigateBack} />}
         />
-
+        <Route path='/profile' element={<UserProfile />} />{' '}
+        {/* New route for user profile */}
         <Route path='/Services' element={<ServicesComponent />} />
         <Route path='/courses' element={<CoursesPage />} />
       </Routes>

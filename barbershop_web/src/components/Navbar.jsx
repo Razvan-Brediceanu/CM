@@ -1,6 +1,8 @@
+// src/components/Navbar.js
 import React, { useEffect, useState } from 'react'
 import { FaBars, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { Link, useLocation } from 'react-router-dom'
+import ProfileIcon from './ProfileIcon' // Import the ProfileIcon component
 
 const Navbar = () => {
   const [nav, setNav] = useState(false)
@@ -84,7 +86,10 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
+          {/* Add the ProfileIcon component here */}
+          <ProfileIcon />
+
           <a
             href='https://facebook.com'
             target='_blank'

@@ -1,85 +1,142 @@
-const User = require("../models/userModel");
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const User = require('../models/userModel')
+const uuid = require('uuid')
 
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.find({}).sort({ createdAt: -1 });
-    res.status(200).json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+// Function to generate a refresh token
+const generateRefreshToken = () => {
+  return uuid.v4() // Generates a random UUID
+}
 
-const getUser = async (req, res) => {
-  const { username } = req.params;
-
-  try {
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.status(404).json({ error: "No such user" });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
+// Function to create a new user
 const createUser = async (req, res) => {
-  const { username, email, password } = req.body;
-
   try {
-    const user = await User.create({ username, email, password });
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+    const { username, email, password } = req.body
 
-const deleteUser = async (req, res) => {
-  const { username } = req.params;
+    // Check if the username or email already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] })
 
-  try {
-    const user = await User.findOneAndDelete({ username });
-
-    if (!user) {
-      return res.status(404).json({ error: "No such user" });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: 'Username or email already exists.' })
     }
 
-    res.status(200).json(user);
+    // Hash the password
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    // Generate refresh token
+    const refreshToken = generateRefreshToken()
+
+    // Create a new user
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      refreshToken,
+    })
+
+    // Save the user to the database
+    await newUser.save()
+
+    res.status(201).json({ message: 'User created successfully.' })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error('Error creating user:', error)
+    res.status(500).json({ error: 'Internal server error.' })
   }
-};
+}
 
-const updateUser = async (req, res) => {
-  const { username } = req.params;
-
+// Function to log in a user
+const loginUser = async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
-      { username },
-      { ...req.body },
-      { new: true } // Return the updated document
-    );
+    const { email, password } = req.body
 
+    // Find the user by email
+    const user = await User.findOne({ email })
+
+    // Check if the user exists
     if (!user) {
-      return res.status(404).json({ error: "No such user" });
+      return res.status(401).json({ error: 'Invalid email or password.' })
     }
 
-    res.status(200).json(user);
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = await bcrypt.compare(password, user.password)
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid email or password.' })
+    }
+
+    // User authenticated, generate an access token
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '15m', // Access token expires in 15 minutes
+    })
+
+    // Generate refresh token
+    const refreshToken = generateRefreshToken()
+
+    // Update user's refresh token in the database
+    user.refreshToken = refreshToken
+    await user.save()
+
+    // Send the access token and refresh token in the response
+    res.json({
+      message: 'Login successful',
+      user: {
+        username: user.username,
+        email: user.email,
+        // Include other user details as needed
+      },
+      token: accessToken,
+      refreshToken,
+    })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error('Error logging in:', error)
+    res.status(500).json({ error: 'Internal server error.' })
   }
-};
+}
+
+// Function to get the profile of the currently logged-in user
+const getProfile = async (req, res) => {
+  try {
+    // Retrieve user data from the request
+    const userData = req.user
+
+    // Send user data in the response
+    res.json(userData)
+  } catch (error) {
+    console.error('Error getting user profile:', error)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
+}
+
+// Function to get a single user by username
+const getUser = async (req, res) => {
+  try {
+    // Retrieve the username from the request parameters
+    const { username } = req.params
+
+    // Find the user by username
+    const user = await User.findOne({ username })
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' })
+    }
+
+    // Send user data in the response
+    res.json(user)
+  } catch (error) {
+    console.error('Error getting user:', error)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
+}
+
+// ... (other functions)
 
 module.exports = {
-  getUsers,
-  getUser,
   createUser,
-  deleteUser,
-  updateUser,
-};
+  loginUser,
+  getProfile,
+  getUser,
+  // ... (other exports)
+}
