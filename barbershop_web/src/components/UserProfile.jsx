@@ -3,10 +3,12 @@ import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { jwtDecode as jwt_decode } from 'jwt-decode'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
   const getNewToken = async () => {
     try {
@@ -48,7 +50,9 @@ const UserProfile = () => {
         console.log('JWT Token:', jwtToken)
 
         if (!jwtToken) {
-          throw new Error('JWT token is missing.')
+          // Redirect to the login page using useNavigate
+          navigate('/login')
+          return // Exit early to prevent further execution
         }
 
         const decodedToken = jwt_decode(jwtToken)
@@ -72,7 +76,8 @@ const UserProfile = () => {
         console.error('Error loading user data', error)
 
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          window.location.href = '/login'
+          // Redirect to the login page using useNavigate
+          navigate('/login')
         }
       } finally {
         setIsLoading(false)
@@ -80,7 +85,7 @@ const UserProfile = () => {
     }
 
     fetchUserData()
-  }, [])
+  }, [navigate]) // Include navigate in the dependency array
 
   if (isLoading) {
     return <div>Loading...</div>

@@ -4,7 +4,16 @@ import { Link } from 'react-router-dom'
 const Activities = ({ onLoginClick }) => {
   // Function to handle the "Logheaza-te" link click
   const handleLoginClick = () => {
-    onLoginClick()
+    // Check if a valid JWT token is present in local storage
+    const jwtToken = localStorage.getItem('jwtToken')
+    if (jwtToken) {
+      // If there's a JWT token, redirect to logout or handle the logout logic
+      console.log('Delogheaza-te clicked or handleLogout()')
+      // Implement your logout logic or redirect here
+    } else {
+      // If there's no JWT token, proceed with the regular login logic
+      onLoginClick()
+    }
   }
 
   return (
@@ -25,7 +34,7 @@ const Activities = ({ onLoginClick }) => {
       <Link to='/login' onClick={handleLoginClick}>
         <div className='relative p-4 shadow-2xl shadow-black'>
           <h3 className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold your-permanent-marker-text'>
-            Logheaza-te
+            {localStorage.getItem('jwtToken') ? 'Delogheaza-te' : 'Logheaza-te'}
           </h3>
           <img
             className='w-full h-full object-cover relative border-4 border-white shadow-lg'

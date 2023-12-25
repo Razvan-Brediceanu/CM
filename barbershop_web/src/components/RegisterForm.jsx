@@ -133,7 +133,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
           htmlFor='password'
           className='block mt-4 text-gray-700 font-bold'
         >
-          Password:
+          Parola:
         </label>
         <input
           type='password'
@@ -150,7 +150,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
           className='custom-button w-full mt-6 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300'
           disabled={isLoading}
         >
-          {isLoading ? 'Registering...' : 'Register'}
+          {isLoading ? 'Registering...' : 'Inregistreaza-te'}
         </button>
       </form>
     </div>

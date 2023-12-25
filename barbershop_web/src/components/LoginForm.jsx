@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = ({ setIsLoginPage }) => {
+  const navigate = useNavigate() // Use useNavigate for navigation
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   })
-
   const [isLoading, setIsLoading] = useState(false)
   const [loginError, setLoginError] = useState(null)
-  const [shouldRedirect, setShouldRedirect] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    // Check if a valid JWT token is present in local storage
+    const jwtToken = localStorage.getItem('jwtToken')
+    if (jwtToken) {
+      setIsLoggedIn(true)
+    }
+  }, [])
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
-
     setLoginError(null)
     setIsLoading(true)
 
@@ -30,31 +38,15 @@ const LoginForm = ({ setIsLoginPage }) => {
         loginData
       )
 
-      // Log the entire response object to the console
-      console.log('Login response:', response)
-
-      // Log the data from the response to understand its structure
-      console.log('Response data:', response.data)
-
       if (response.data && response.data.token) {
-        // Log the access token from the response to the console
-        console.log('Access Token:', response.data.token)
-
-        // Store the refresh token in local storage
         localStorage.setItem('refreshToken', response.data.refreshToken)
-        // Store the access token in local storage
         localStorage.setItem('jwtToken', response.data.token)
+        setIsLoggedIn(true)
+        setLoginData({ email: '', password: '' })
 
-        // Provide feedback to the user (e.g., redirect to home page)
-        setShouldRedirect(true)
-
-        // Clear the form after successful login
-        setLoginData({
-          email: '',
-          password: '',
-        })
+        // Redirect to the home page after successful login
+        navigate('/') // Update the path based on your home page route
       } else {
-        console.error('Response data:', response.data)
         console.error('Access token is missing in the response.')
         throw new Error('Access token is missing in the response.')
       }
@@ -68,23 +60,21 @@ const LoginForm = ({ setIsLoginPage }) => {
     }
   }
 
+  const handleLogout = () => {
+    console.log('Logging out...')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('jwtToken')
+    setIsLoggedIn(false)
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setLoginData({
-      ...loginData,
-      [name]: value,
-    })
+    setLoginData({ ...loginData, [name]: value })
   }
 
-  // Client-side validation functions
   const isValidEmail = (email) => {
-    // Implement your email validation logic (e.g., regex)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
-  }
-
-  if (shouldRedirect) {
-    return <Navigate to='/profile' replace />
   }
 
   const backgroundStyles = {
@@ -104,54 +94,67 @@ const LoginForm = ({ setIsLoginPage }) => {
         onSubmit={handleLoginSubmit}
         disabled={isLoading}
       >
-        <h2 className='text-2xl font-bold mb-4'>Logheaza-te</h2>
-
-        {loginError && <p className='text-red-500 mb-4'>{loginError}</p>}
-
-        <label htmlFor='email' className='block mt-4 text-gray-700 font-bold'>
-          Email:
-        </label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          value={loginData.email}
-          onChange={handleInputChange}
-          required
-          className='w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500'
-        />
-
-        <label
-          htmlFor='password'
-          className='block mt-4 text-gray-700 font-bold'
-        >
-          Password:
-        </label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          value={loginData.password}
-          onChange={handleInputChange}
-          required
-          className='w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500'
-        />
-
-        <button
-          type='submit'
-          className='custom-button w-full mt-6 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300'
-          disabled={isLoading}
-        >
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-
-        <p className='mt-4 text-gray-700'>
-          Nu ai cont?{' '}
-          <Link to='/register' className='text-blue-500 hover:underline'>
-            Creaza-ti unul
-          </Link>
-          .
-        </p>
+        {isLoggedIn ? (
+          <>
+            <h2 className='text-2xl font-bold mb-4'>Delogheaza-te</h2>
+            <button
+              type='button'
+              onClick={handleLogout}
+              className='custom-button w-full mt-6 py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300'
+            >
+              Delogheza-te
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className='text-2xl font-bold mb-4'>Logheaza-te</h2>
+            {loginError && <p className='text-red-500 mb-4'>{loginError}</p>}
+            <label
+              htmlFor='email'
+              className='block mt-4 text-gray-700 font-bold'
+            >
+              Email:
+            </label>
+            <input
+              type='email'
+              id='email'
+              name='email'
+              value={loginData.email}
+              onChange={handleInputChange}
+              required
+              className='w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500'
+            />
+            <label
+              htmlFor='password'
+              className='block mt-4 text-gray-700 font-bold'
+            >
+              Parola:
+            </label>
+            <input
+              type='password'
+              id='password'
+              name='password'
+              value={loginData.password}
+              onChange={handleInputChange}
+              required
+              className='w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500'
+            />
+            <button
+              type='submit'
+              className='custom-button w-full mt-6 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300'
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Logheaza-te'}
+            </button>
+            <p className='mt-4 text-gray-700'>
+              Nu ai cont?{' '}
+              <Link to='/register' className='text-blue-500 hover:underline'>
+                Creaza-ti unul
+              </Link>
+              .
+            </p>
+          </>
+        )}
       </form>
     </div>
   )
