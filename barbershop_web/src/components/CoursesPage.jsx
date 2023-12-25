@@ -1,33 +1,81 @@
 import React, { useState, useEffect } from 'react'
-import CourseCard from './CourseCard'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
   const [userData, setUserData] = useState(null)
+  const navigate = useNavigate()
+
+  const fetchUserData = async () => {
+    try {
+      const jwtToken = localStorage.getItem('jwtToken')
+
+      if (!jwtToken) {
+        console.error('JWT Token not found in local storage')
+        navigate('/login') // Redirect to login page if not logged in
+        return
+      }
+
+      // Simulate fetching user data
+      // Replace this with your actual user data logic
+      const mockUserData = {
+        subscriptions: [], // No initial subscriptions
+      }
+
+      setUserData(mockUserData)
+    } catch (error) {
+      console.error('Error fetching user data', error)
+    }
+  }
+
+  const fetchCourses = async () => {
+    try {
+      // Simulate fetching courses
+      // Replace this with your actual courses logic
+      const mockCourses = [
+        {
+          title: 'Course 1',
+          description: 'Description for Course 1',
+          videoUrl: 'https://www.youtube.com/watch?v=example1',
+          price: 19.99, // Add a price for each course
+        },
+        {
+          title: 'Course 2',
+          description: 'Description for Course 2',
+          videoUrl: 'https://www.youtube.com/watch?v=example2',
+          price: 29.99,
+        },
+        {
+          title: 'Course 3',
+          description: 'Description for Course 3',
+          videoUrl: 'https://www.youtube.com/watch?v=example3',
+          price: 39.99,
+        },
+        // Add more courses as needed
+      ]
+
+      setCourses(mockCourses)
+    } catch (error) {
+      console.error('Error fetching courses', error)
+    }
+  }
+
+  const handlePay = (event, courseTitle) => {
+    event.preventDefault() // Prevent default form submission behavior
+
+    // Simulate payment logic
+    // Replace this with your actual payment logic
+    console.log(`Payment successful for ${courseTitle}`)
+
+    // Update user's subscriptions to unlock the course
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      subscriptions: [...prevUserData.subscriptions, courseTitle],
+    }))
+  }
 
   useEffect(() => {
-    // Fetch user data and courses when the component mounts
-    const fetchUserData = async () => {
-      try {
-        // Assuming your backend API provides user data
-        const response = await axios.get('http://localhost:4000/user')
-        setUserData(response.data)
-      } catch (error) {
-        console.error('Error fetching user data', error)
-      }
-    }
-
-    const fetchCourses = async () => {
-      try {
-        // Assuming your backend API provides a list of courses
-        const response = await axios.get('http://localhost:4000/courses')
-        setCourses(response.data)
-      } catch (error) {
-        console.error('Error fetching courses', error)
-      }
-    }
-
     fetchUserData()
     fetchCourses()
   }, [])
@@ -39,13 +87,34 @@ const CoursesPage = () => {
       </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {courses.map((course, index) => (
-          <CourseCard
-            key={index}
-            {...course}
-            isUnlocked={
-              userData && userData.subscriptions.includes(course.title)
-            }
-          />
+          <div key={index} className='bg-white p-6 rounded-lg shadow-lg'>
+            <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
+            <p className='text-gray-600 mb-4'>{course.description}</p>
+            {!userData || !userData.subscriptions.includes(course.title) ? (
+              // Render payment button if not unlocked
+              <>
+                <button
+                  className='text-green-500 font-bold'
+                  onClick={(event) => handlePay(event, course.title)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Pay to Unlock
+                </button>
+                <p>Price: ${course.price}</p>
+              </>
+            ) : (
+              // Render video if unlocked
+              <iframe
+                title={course.title}
+                width='100%'
+                height='315'
+                src={course.videoUrl}
+                frameBorder='0'
+                allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                allowFullScreen
+              ></iframe>
+            )}
+          </div>
         ))}
       </div>
     </div>

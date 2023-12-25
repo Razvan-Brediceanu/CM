@@ -95,19 +95,28 @@ const UserProfile = () => {
     <div className='container mx-auto my-10 font-bold'>
       <div className='bg-white p-8 rounded-lg shadow-md md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto'>
         <h2 className='text-3xl font-semibold mb-8 flex items-center'>
-          <FontAwesomeIcon icon={faUser} className='mr-4' />
-          User Profile
+          <FontAwesomeIcon icon={faUser} className='mr-4 ' />
+          {/* Use userData.username if available, otherwise fallback to "User" */}
+          {userData ? `${userData.username}'s Profile` : 'User Profile'}
         </h2>
         {userData ? (
           <div>
-            <p className='text-lg mb-4'>
-              <strong>Username:</strong> {userData.username}
+            <p className='text-lg mb-4 '>
+              <strong className='text-gray-600 mb-4 font-bold your-permanent-marker-text'>
+                Username:
+              </strong>{' '}
+              {userData.username}
             </p>
             <p className='text-lg mb-4'>
-              <strong>Email:</strong> {userData.email}
+              <strong className='text-gray-600 mb-4 font-bold your-permanent-marker-text'>
+                Email:
+              </strong>{' '}
+              {userData.email}
             </p>
             <p className='text-lg mb-4'>
-              <strong>Subscription Status:</strong>{' '}
+              <strong className='text-gray-600 mb-4 font-bold your-permanent-marker-text'>
+                Subscription Status:
+              </strong>{' '}
               {userData.subscriptions && userData.subscriptions.length > 0
                 ? 'Subscribed'
                 : 'Not subscribed'}

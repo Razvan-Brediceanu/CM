@@ -55,12 +55,17 @@
   .profile-icon {
     width: 40px;
     height: 40px;
-    background-color: #3498db; /* You can choose your own color */
-    color: #fff;
+    @apply px-4 py-2 border bg-gradient-to-r from-[var(--primary-dark)] to-[var(--primary-light)] text-white rounded-xl;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .profile-icon:hover {
+    transform: scale(1.05); /* Increase the size on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on hover */
   }
 }
