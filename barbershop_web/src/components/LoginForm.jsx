@@ -34,8 +34,9 @@ const LoginForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        'ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/login',
-        loginData
+        'http://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/login',
+        loginData,
+        { withCredentials: true }
       )
 
       if (response.data && response.data.token) {
