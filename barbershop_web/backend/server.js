@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 4000
-const HOST = 'http://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com' // Update with your actual EC2 instance DNS name
+const HOST = 'ec2-51-20-131-65.eu-north-1.compute.amazonaws.com' // Update with your actual EC2 instance DNS name
 
 // Middleware
 app.use(
