@@ -8,7 +8,11 @@ const PORT = process.env.PORT || 4000
 const HOST = 'ec2-51-20-131-65.eu-north-1.compute.amazonaws.com' // Update with your actual EC2 instance DNS name
 
 // Middleware
-app.use(cors())
+app.use(
+  cors({
+    origin: 'https://cozy-jelly-993560.netlify.app',
+  })
+)
 app.use(express.json())
 
 // Connect to MongoDB
