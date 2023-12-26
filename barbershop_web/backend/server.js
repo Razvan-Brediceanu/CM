@@ -5,6 +5,7 @@ require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 4000
+const HOST = 'ec2-51-20-254-122.eu-north-1.compute.amazonaws.com' // Update with your actual EC2 instance DNS name
 
 // Middleware
 app.use(cors())
@@ -29,6 +30,6 @@ app.use('/user', userRouter)
 app.use('/auth/refresh', refreshTokenRouter) // Use refreshTokenRouter for refreshing tokens
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+app.listen(PORT, HOST, () => {
+  console.log(`Server is running at http://${HOST}:${PORT}/`)
 })

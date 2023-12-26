@@ -30,7 +30,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        'http://localhost:4000/user/register',
+        'http://ec2-51-20-254-122.eu-north-1.compute.amazonaws.com:4000/user/register',
         registrationData
       )
 

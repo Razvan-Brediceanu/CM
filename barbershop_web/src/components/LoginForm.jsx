@@ -34,7 +34,7 @@ const LoginForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        'http://localhost:4000/user/login',
+        'http://ec2-51-20-254-122.eu-north-1.compute.amazonaws.com:4000/user/login',
         loginData
       )
 
@@ -58,13 +58,6 @@ const LoginForm = ({ setIsLoginPage }) => {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleLogout = () => {
-    console.log('Logging out...')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('jwtToken')
-    setIsLoggedIn(false)
   }
 
   const handleInputChange = (e) => {
@@ -96,14 +89,10 @@ const LoginForm = ({ setIsLoginPage }) => {
       >
         {isLoggedIn ? (
           <>
-            <h2 className='text-2xl font-bold mb-4'>Delogheaza-te</h2>
-            <button
-              type='button'
-              onClick={handleLogout}
-              className='custom-button w-full mt-6 py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300'
-            >
-              Delogheza-te
-            </button>
+            <h2 className='text-2xl font-bold mb-4'>
+              Relogheaza-te a expirat sesiunea
+            </h2>
+            {/* No logout button here */}
           </>
         ) : (
           <>

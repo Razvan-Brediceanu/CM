@@ -1,19 +1,29 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Activities = ({ onLoginClick }) => {
+  const navigate = useNavigate()
+
   // Function to handle the "Logheaza-te" link click
   const handleLoginClick = () => {
     // Check if a valid JWT token is present in local storage
     const jwtToken = localStorage.getItem('jwtToken')
     if (jwtToken) {
-      // If there's a JWT token, redirect to logout or handle the logout logic
-      console.log('Delogheaza-te clicked or handleLogout()')
-      // Implement your logout logic or redirect here
+      // If there's a JWT token, handle the logout logic
+      handleLogout()
     } else {
       // If there's no JWT token, proceed with the regular login logic
       onLoginClick()
     }
+  }
+
+  // Function to handle the logout
+  const handleLogout = () => {
+    // Implement your logout logic here
+    console.log('Logging out...')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('jwtToken')
+    navigate('/') // Redirect to the home page or the desired page after logout
   }
 
   return (
@@ -32,7 +42,7 @@ const Activities = ({ onLoginClick }) => {
       </Link>
       {/* Make the "Logheaza-te" section clickable */}
       <Link to='/login' onClick={handleLoginClick}>
-        <div className='relative p-4 shadow-2xl shadow-black'>
+        <div className='relative p-4 shadow-2xl shadow-black hover:scale-105 transition-transform'>
           <h3 className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl font-bold your-permanent-marker-text'>
             {localStorage.getItem('jwtToken') ? 'Delogheaza-te' : 'Logheaza-te'}
           </h3>

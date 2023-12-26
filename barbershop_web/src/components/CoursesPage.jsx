@@ -1,33 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
   const [userData, setUserData] = useState(null)
   const navigate = useNavigate()
-
-  const fetchUserData = async () => {
-    try {
-      const jwtToken = localStorage.getItem('jwtToken')
-
-      if (!jwtToken) {
-        console.error('JWT Token not found in local storage')
-        navigate('/login') // Redirect to login page if not logged in
-        return
-      }
-
-      // Simulate fetching user data
-      // Replace this with your actual user data logic
-      const mockUserData = {
-        subscriptions: [], // No initial subscriptions
-      }
-
-      setUserData(mockUserData)
-    } catch (error) {
-      console.error('Error fetching user data', error)
-    }
-  }
 
   const fetchCourses = async () => {
     try {
@@ -37,19 +14,19 @@ const CoursesPage = () => {
         {
           title: 'Course 1',
           description: 'Description for Course 1',
-          videoUrl: 'https://www.youtube.com/watch?v=example1',
+          videoUrl: 'https://www.youtube.com/embed/',
           price: 19.99, // Add a price for each course
         },
         {
           title: 'Course 2',
           description: 'Description for Course 2',
-          videoUrl: 'https://www.youtube.com/watch?v=example2',
+          videoUrl: 'https://www.youtube.com/embed/',
           price: 29.99,
         },
         {
           title: 'Course 3',
           description: 'Description for Course 3',
-          videoUrl: 'https://www.youtube.com/watch?v=example3',
+          videoUrl: 'https://www.youtube.com/embed/',
           price: 39.99,
         },
         // Add more courses as needed
@@ -76,13 +53,33 @@ const CoursesPage = () => {
   }
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const jwtToken = localStorage.getItem('jwtToken')
+
+        if (!jwtToken) {
+          console.error('JWT Token not found in local storage')
+          navigate('/login')
+          return
+        }
+
+        const mockUserData = {
+          subscriptions: [],
+        }
+
+        setUserData(mockUserData)
+      } catch (error) {
+        console.error('Error fetching user data', error)
+      }
+    }
+
     fetchUserData()
     fetchCourses()
-  }, [])
+  }, [navigate]) // Include navigate in the dependency array
 
   return (
-    <div className='container mx-auto my-10 font-bold your-permanent-marker-text'>
-      <h2 className='text-3xl font-semibold mb-8 text-center'>
+    <div className='container mx-auto my-10 font-bold your-permanent-marker-text mt-16'>
+      <h2 className='text-3xl font-semibold mb-20 text-center'>
         Cursuri Musat Signature
       </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
