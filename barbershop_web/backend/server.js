@@ -36,5 +36,5 @@ app.use('/auth/refresh', refreshTokenRouter) // Use refreshTokenRouter for refre
 
 // Start the server
 app.listen(PORT, HOST, () => {
-  console.log(`Server is running at http://${HOST}:${PORT}/`)
+  console.log(`Server is running at https://${HOST}:${PORT}/`)
 })

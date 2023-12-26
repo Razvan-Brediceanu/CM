@@ -22,7 +22,7 @@ const UserProfile = () => {
       }
 
       const response = await axios.post(
-        'http://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/auth/refresh',
+        'https://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/auth/refresh',
         {
           refresh_token: refreshToken,
         }
@@ -58,7 +58,7 @@ const UserProfile = () => {
         }
 
         const response = await axios.get(
-          'http://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/profile',
+          'https://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/profile',
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
