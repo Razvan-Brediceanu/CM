@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL = '.netlify/functions' // Assuming your functions are in this path
+const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 
 console.log(apiBaseURL)
 
@@ -36,7 +36,7 @@ const LoginForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        `${apiBaseURL}/users/login`,
+        `${apiBaseURL}/user/login`, // Adjust the endpoint
         loginData,
         {
           withCredentials: true,

@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const serverless = require('serverless-http') // Import the serverless-http module
 const app = express()
 
 // Middleware
@@ -16,8 +17,8 @@ app.use(express.json())
 const userRouter = require('./routes/users')
 const refreshTokenRouter = require('./routes/refreshToken')
 
-app.use('/user', userRouter)
-app.use('/auth/refresh', refreshTokenRouter)
+app.use('/.netlify/functions/server/user', userRouter) // Adjust the base path
+app.use('/.netlify/functions/server/auth/refresh', refreshTokenRouter) // Adjust the base path
 
 // Connect to MongoDB
 mongoose
@@ -32,39 +33,16 @@ mongoose
     console.error('Error connecting to MongoDB:', error)
   })
 
+// Use serverless-http to wrap your Express app
+const handler = serverless(app)
+
 // Define a function to handle requests for serverless deployment
 exports.handler = async function (event, context) {
-  try {
-    if (event.httpMethod === 'OPTIONS') {
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': 'https://geeks4life.netlify.app',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Credentials': 'true', // Add this line
-        },
-        body: '',
-      }
-    }
-
-    // Handle regular Express app functionality
-    const result = await app(event, context)
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(result),
-    }
-  } catch (error) {
-    console.error('Error handling request:', error)
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Internal Server Error' }),
-    }
-  }
+  // Include the serverless-http handler
+  return await handler(event, context)
 }
 
-// If you want to run the server locally (not for serverless deployment)
+// This part is not needed for serverless deployment, it's for local testing
 if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
   const PORT = process.env.PORT || 3000
   app.listen(PORT, () => {
