@@ -37,10 +37,10 @@
   },
   "scripts": {
     "start": "set PORT=5000 && react-scripts start",
-    "build": "react-scripts build && npm run start-server",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-server": "node server.js"
+    "start-server": "node functions/server.js"
   },
   "eslintConfig": {
     "extends": [
