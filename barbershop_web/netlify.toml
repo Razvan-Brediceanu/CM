@@ -3,9 +3,6 @@
   publish = "barbershop_web/build"
   functions = "barbershop_web/functions"
 
-  [functions]
-  directory = "barbershop_web/functions"
-
 [[redirects]]
   from = "/functions/*"
   to = "/.netlify/functions/:splat"
@@ -17,3 +14,6 @@
     Access-Control-Allow-Origin = ["*"]
     Access-Control-Allow-Headers = ["Content-Type"]
     Access-Control-Allow-Methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
+[functions]
+  directory = "barbershop_web/functions"  # Updated to the correct functions directory

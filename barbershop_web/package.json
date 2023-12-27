@@ -40,7 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-server": "node functions/server.js"
+    "start-server": "node barbershop_web/functions/server.js"  # Updated to the correct server path
   },
   "eslintConfig": {
     "extends": [
