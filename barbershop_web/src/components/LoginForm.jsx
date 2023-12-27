@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+const apiBaseURL =
+  process.env.REACT_APP_API_BASE_URL || 'https://geeks4life.netlify.app'
 
 const LoginForm = ({ setIsLoginPage }) => {
   const navigate = useNavigate()
@@ -35,6 +36,10 @@ const LoginForm = ({ setIsLoginPage }) => {
 
       const response = await axios.post(`${apiBaseURL}/user/login`, loginData, {
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'https://geeks4life.netlify.app',
+        },
       })
 
       if (response.data && response.data.token) {
