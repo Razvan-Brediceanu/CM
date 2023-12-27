@@ -5,8 +5,8 @@ const {
   getUser,
   loginUser,
   getProfile,
-} = require('../functions/controllers/userController')
-const authMiddleware = require('../functions/middleware/authMiddleware')
+} = require('../controllers/userController')
+const authMiddleware = require('../middleware/authMiddleware')
 
 // Get the profile of the currently logged-in user (protected route)
 router.get('/profile', authMiddleware, getProfile)
