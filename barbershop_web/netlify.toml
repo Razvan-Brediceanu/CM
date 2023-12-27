@@ -1,6 +1,7 @@
 [build]
-  command = "npm run build"  # Adjust this based on your build command
-  publish = "build"  # Adjust this based on your build output directory
+  command = "npm run build"
+  publish = "build"
+  functions = "functions"
 
 [[redirects]]
   from = "/functions/*"
