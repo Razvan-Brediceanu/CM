@@ -1,7 +1,8 @@
 [build]
   command = "node server.js"
+  base = "barbershop_web"
   publish = "barbershop_web"
-  functions = "functions"
+  functions = "barbershop_web/functions"
 
 
 
