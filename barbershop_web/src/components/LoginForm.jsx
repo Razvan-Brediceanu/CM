@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL = '/.netlify/functions' // Assuming your functions are in this path
+const apiBaseURL = '.netlify/functions' // Assuming your functions are in this path
 
 console.log(apiBaseURL)
 
