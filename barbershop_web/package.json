@@ -36,11 +36,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cd barbershop_web && npm start",
-    "build": "cd barbershop_web && npm run build",
+    "start": "npm run start-server",
+    "build": "npm run build-client",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-server": "node backend/server.js"
+    "start-server": "node backend/server.js",
+    "build-client": "cd barbershop_web && npm run build"
   },
   "eslintConfig": {
     "extends": [
