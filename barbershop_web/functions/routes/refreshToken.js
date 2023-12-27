@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const express = require('express')
 const router = express.Router()
-const User = require('../functions/models/userModel')
+const User = require('../models/userModel')
 
 // Replace this with your actual secret key
 const secretKey = process.env.SECRET_KEY || 'test2'
