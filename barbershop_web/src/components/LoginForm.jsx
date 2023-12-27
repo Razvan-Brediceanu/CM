@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 const apiBaseURL = process.env.REACT_APP_API_BASE_URL
 
 const LoginForm = ({ setIsLoginPage }) => {
-  const navigate = useNavigate() // Use useNavigate for navigation
+  const navigate = useNavigate()
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -17,7 +17,6 @@ const LoginForm = ({ setIsLoginPage }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    // Check if a valid JWT token is present in local storage
     const jwtToken = localStorage.getItem('jwtToken')
     if (jwtToken) {
       setIsLoggedIn(true)
@@ -30,7 +29,6 @@ const LoginForm = ({ setIsLoginPage }) => {
     setIsLoading(true)
 
     try {
-      // Perform client-side validation
       if (!isValidEmail(loginData.email)) {
         throw new Error('Invalid email.')
       }
@@ -44,9 +42,7 @@ const LoginForm = ({ setIsLoginPage }) => {
         localStorage.setItem('jwtToken', response.data.token)
         setIsLoggedIn(true)
         setLoginData({ email: '', password: '' })
-
-        // Redirect to the home page after successful login
-        navigate('/') // Update the path based on your home page route
+        navigate('/')
       } else {
         console.error('Access token is missing in the response.')
         throw new Error('Access token is missing in the response.')

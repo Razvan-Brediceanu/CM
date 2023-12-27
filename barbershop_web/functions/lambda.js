@@ -12,7 +12,7 @@ connection.once('open', () => {
   console.log('Connected to MongoDB')
 })
 
-const app = require('../server')
+const app = require('./server')
 
 exports.handler = async function (event, context) {
   if (event.httpMethod === 'OPTIONS') {
