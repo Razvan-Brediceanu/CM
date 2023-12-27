@@ -14,7 +14,7 @@ const TopBar = () => {
           />
         </div>
         <h1 className='text-2xl font-bold text-gray-700 md:ml-2 font-bold your-permanent-marker-text'>
-          Musat Signature
+          Musat Signatureee
         </h1>
       </div>
       <div className='flex flex-col md:flex-row items-center md:space-x-6'>
