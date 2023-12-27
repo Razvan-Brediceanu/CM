@@ -1,7 +1,7 @@
 [build]
-  command = "npm run build"
-  publish = "barbershop_web/build"
-  functions = "barbershop_web/functions"
+command = "npm run build"
+  publish = "build"
+  functions = "functions"
 
 [functions]
   directory = "functions"
