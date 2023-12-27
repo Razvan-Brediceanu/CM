@@ -1,8 +1,7 @@
 [build]
-  base = "barbershop_web"
-  publish = "barbershop_web/build"
-  functions = "barbershop_web/netlify/functions"
   command = "npm run build"
+  publish = "barbershop_web/build"
+  functions = "barbershop_web/functions"
 
   [functions]
   directory = "barbershop_web/functions"
