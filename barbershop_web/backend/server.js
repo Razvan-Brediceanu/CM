@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 4000
-const HOST = 'ec2-51-20-131-65.eu-north-1.compute.amazonaws.com' // Update with your actual EC2 instance DNS name
+const HOST = '0.0.0.0' // Update host to listen on all interfaces
 
 // Middleware
 app.use(
@@ -36,5 +36,5 @@ app.use('/auth/refresh', refreshTokenRouter) // Use refreshTokenRouter for refre
 
 // Start the server
 app.listen(PORT, HOST, () => {
-  console.log(`Server is running at https://${HOST}:${PORT}/`)
+  console.log(`Server is running at http://${HOST}:${PORT}/`) // Update protocol to HTTP since HTTPS may be handled by a reverse proxy (like Netlify)
 })
