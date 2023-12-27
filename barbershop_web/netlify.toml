@@ -1,8 +1,10 @@
 [build]
-  functions = "functions"
+command = "node src/server.js"
+publish = "barbershop_web"
+functions = "barbershop_web/functions"
 
 [[redirects]]
-  from = "/.netlify/functions/server/*"
+  from = "/functions/server/*"
   to = "/.netlify/functions/server/:splat"
   status = 200
   force = true
