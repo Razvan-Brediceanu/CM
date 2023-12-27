@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL =
+const apiBaseURL = (
   process.env.REACT_APP_API_BASE_URL || 'https://geeks4life.netlify.app'
+).replace(/\/+$/, '')
 
 const LoginForm = ({ setIsLoginPage }) => {
   const navigate = useNavigate()
