@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL = 'https://testingbackend.netlify.app/functions'.replace(
-  /\/+$/,
-  ''
-)
+const apiBaseURL = 'process.env.REACT_APP_API_BASE_URL'.replace(/\/+$/, '')
 
 console.log(apiBaseURL)
 
@@ -42,7 +39,6 @@ const LoginForm = ({ setIsLoginPage }) => {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://geeks4life.netlify.app',
         },
       })
 
