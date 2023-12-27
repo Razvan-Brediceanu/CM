@@ -1,3 +1,7 @@
+[build]
+  command = "npm run build"  # Adjust this based on your build command
+  publish = "build"  # Adjust this based on your build output directory
+
 [[redirects]]
   from = "/functions/*"
   to = "/.netlify/functions/:splat"
