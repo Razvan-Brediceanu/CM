@@ -8,6 +8,8 @@ const apiBaseURL = (
   process.env.REACT_APP_API_BASE_URL || 'https://geeks4life.netlify.app'
 ).replace(/\/+$/, '')
 
+console.log(apiBaseURL)
+
 const LoginForm = ({ setIsLoginPage }) => {
   const navigate = useNavigate()
   const [loginData, setLoginData] = useState({
