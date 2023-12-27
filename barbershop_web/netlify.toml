@@ -3,6 +3,9 @@
   publish = "barbershop_web/build"
   functions = "barbershop_web/functions"
 
+[functions]
+  directory = "functions"
+
 [[redirects]]
   from = "/functions/*"
   to = "/.netlify/functions/:splat"
