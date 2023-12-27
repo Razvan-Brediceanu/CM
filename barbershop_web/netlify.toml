@@ -2,15 +2,22 @@
   command = "npm run build"
   publish = "barbershop_web/build"
   functions = "barbershop_web/functions"
+  base = "/"
 
 [[redirects]]
-  from = "/functions/*"
-  to = "/.netlify/functions/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
 
 [[headers]]
-  for = "/.netlify/functions/*"
+  for = "/*"
   [headers.values]
     Access-Control-Allow-Origin = ["*"]
     Access-Control-Allow-Headers = ["Content-Type"]
     Access-Control-Allow-Methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
+# Additional configuration for serverless functions
+[[redirects]]
+  from = "/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
