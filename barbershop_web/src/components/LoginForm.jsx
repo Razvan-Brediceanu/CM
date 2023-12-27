@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { useNavigate } from 'react-router-dom'
 
-const apiBaseURL = process.env.REACT_APP_API_BASE_URL + '/.netlify/functions'
+const apiBaseURL = process.env.REACT_APP_API_BASE_URL
 
 const LoginForm = ({ setIsLoginPage }) => {
   const navigate = useNavigate() // Use useNavigate for navigation
@@ -35,13 +35,9 @@ const LoginForm = ({ setIsLoginPage }) => {
         throw new Error('Invalid email.')
       }
 
-      const response = await axios.post(
-        `${apiBaseURL}/.netlify/functions/user/login`,
-        loginData,
-        {
-          withCredentials: true,
-        }
-      )
+      const response = await axios.post(`${apiBaseURL}/user/login`, loginData, {
+        withCredentials: true,
+      })
 
       if (response.data && response.data.token) {
         localStorage.setItem('refreshToken', response.data.refreshToken)
