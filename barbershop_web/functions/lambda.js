@@ -1,6 +1,3 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -22,6 +19,7 @@ exports.handler = async function (event, context) {
         'Access-Control-Allow-Origin': 'https://geeks4life.netlify.app',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Credentials': 'true', // Add this line
       },
       body: '',
     }
