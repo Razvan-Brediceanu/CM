@@ -6,6 +6,8 @@ import { jwtDecode as jwt_decode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 
+const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -21,12 +23,9 @@ const UserProfile = () => {
         throw new Error('Refresh token is missing.')
       }
 
-      const response = await axios.post(
-        'https://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/auth/refresh',
-        {
-          refresh_token: refreshToken,
-        }
-      )
+      const response = await axios.post(`${apiBaseURL}/auth/refresh`, {
+        refresh_token: refreshToken,
+      })
 
       const newToken = response.data.accessToken
       localStorage.setItem('jwtToken', newToken)
@@ -57,15 +56,12 @@ const UserProfile = () => {
           localStorage.setItem('jwtToken', newToken)
         }
 
-        const response = await axios.get(
-          'https://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/profile',
-          {
-            headers: {
-              Authorization: `Bearer ${jwtToken}`,
-            },
-            withCredentials: true,
-          }
-        )
+        const response = await axios.get(`${apiBaseURL}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        })
 
         console.log('User Data:', response.data)
 

@@ -3,6 +3,8 @@ import axios from 'axios'
 import { Navigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 
+const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+
 const RegisterForm = ({ setIsLoginPage }) => {
   const [registrationData, setRegistrationData] = useState({
     username: '',
@@ -30,7 +32,7 @@ const RegisterForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        'https://ec2-51-20-131-65.eu-north-1.compute.amazonaws.com:4000/user/register',
+        `${apiBaseURL}/user/register`,
         registrationData,
         { withCredentials: true }
       )
