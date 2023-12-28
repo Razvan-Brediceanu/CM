@@ -10,10 +10,12 @@ const Hero = () => {
       />
       {/* Semi-transparent overlay */}
       <div className='absolute inset-0 bg-black bg-gradient-to-b bg-opacity-50'></div>
-      <div className='max-w-[1140px] m-auto'>
-        <div className='absolute top-[25%] sm:top-[30%] md:top-[30%] w-full max-w-[600px] w-[100%] flex flex-col text-white p-4 z-10 bg-black bg-opacity-50 rounded-lg'>
-          <h2 className='text-5xl py-4 italic'>Musat Signature</h2>
-          <p className='text-2xl py-4 italic'>
+      <div className='max-w-[90%] md:max-w-[80%] lg:max-w-[600px] m-auto'>
+        <div className='absolute top-1/4 sm:top-[30%] md:top-[30%] lg:left-1/3 lg:transform lg:translate-x-[-50%] w-full md:max-w-[600px] w-[90%] lg:w-[70%] flex flex-col text-white p-4 z-10 bg-black bg-opacity-50 rounded-lg'>
+          <h2 className='text-3xl sm:text-4xl lg:text-5xl py-2 italic'>
+            Musat Signature
+          </h2>
+          <p className='text-lg sm:text-xl lg:text-2xl py-2 italic'>
             "Transformăm Look-ul, Sporim Încrederea."
           </p>
         </div>

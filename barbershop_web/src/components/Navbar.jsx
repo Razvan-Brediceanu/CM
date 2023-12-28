@@ -61,12 +61,15 @@ const Navbar = () => {
         <ul
           className={`${
             nav ? 'block' : 'hidden'
-          } sm:flex sm:space-x-4 sm:items-center px-4`}
+          } sm:flex sm:mr-4 sm:items-center px-4`}
         >
           <li>
             <Link
               to='/'
-              onClick={handleHomeClick}
+              onClick={() => {
+                handleHomeClick()
+                handleNav() // Close the burger menu on click
+              }}
               className={`${
                 location.pathname === '/' ? 'font-bold text-white' : ''
               }`}
@@ -75,12 +78,20 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <a href='/#gallery' className='hover:opacity-75'>
+            <a
+              href='/#gallery'
+              onClick={() => handleNav()} // Close the burger menu on click
+              className='hover:opacity-75'
+            >
               Gallery
             </a>
           </li>
           <li>
-            <a href='/#contact' className='hover:opacity-75'>
+            <a
+              href='/#contact'
+              onClick={() => handleNav()} // Close the burger menu on click
+              className='hover:opacity-75'
+            >
               Contact
             </a>
           </li>

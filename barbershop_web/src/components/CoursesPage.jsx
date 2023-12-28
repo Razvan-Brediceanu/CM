@@ -83,15 +83,15 @@ const CoursesPage = () => {
       className='relative min-h-screen bg-cover'
       style={{ backgroundImage: `url(${backImage})` }}
     >
-      <div className='absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
-        <h2 className='text-3xl font-bold mb-20 text-center'>
+      <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
+        <h2 className='text-3xl font-bold mb-12 lg:mb-20 text-center'>
           Cursuri Musat Signature
         </h2>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-4 lg:mx-0'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:mx-2 lg:mx-0'>
           {courses.map((course, index) => (
             <div
               key={index}
-              className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
+              className='bg-white p-4 sm:p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
             >
               <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
               <p className='text-gray-600 mb-4'>{course.description}</p>
