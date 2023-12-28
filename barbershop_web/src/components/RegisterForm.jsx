@@ -40,7 +40,10 @@ const RegisterForm = ({ setIsLoginPage }) => {
       console.log('Registration successful', response.data)
 
       // Check if the server response indicates an error (account already exists)
-      if (response.data.error) {
+      if (
+        response.data.error &&
+        response.data.error === 'Username or email already exists.'
+      ) {
         throw new Error(response.data.error)
       }
 
@@ -57,7 +60,8 @@ const RegisterForm = ({ setIsLoginPage }) => {
     } catch (error) {
       console.error('Registration failed', error)
       setRegistrationError(
-        'Registration failed. Please check your information and try again.'
+        error.message ||
+          'Registration failed. Please check your information and try again.'
       )
     } finally {
       setIsLoading(false)
