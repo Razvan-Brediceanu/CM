@@ -80,7 +80,10 @@ const CoursesPage = () => {
 
   return (
     <div
-      className='relative min-h-screen bg-cover'
+      className={`relative min-h-screen bg-cover ${
+        /* Add conditional margin-top class for smaller screens */
+        'sm:mt-16'
+      }`}
       style={{ backgroundImage: `url(${backImage})` }}
     >
       <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
