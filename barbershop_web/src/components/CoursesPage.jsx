@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import backImage from '../images/LoginRegister2.jpg'
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
@@ -78,44 +79,49 @@ const CoursesPage = () => {
   }, [navigate]) // Include navigate in the dependency array
 
   return (
-    <div className='container mx-auto mt-16 px-4 lg:px-8 font-bold your-permanent-marker-text'>
-      <h2 className='text-3xl font-bold mb-20 text-center'>
-        Cursuri Musat Signature
-      </h2>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-4 lg:mx-0'>
-        {courses.map((course, index) => (
-          <div
-            key={index}
-            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
-          >
-            <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
-            <p className='text-gray-600 mb-4'>{course.description}</p>
-            {!userData || !userData.subscriptions.includes(course.title) ? (
-              // Render payment button if not unlocked
-              <>
-                <button
-                  className='text-green-500 font-bold mb-2'
-                  onClick={(event) => handlePay(event, course.title)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Pay to Unlock
-                </button>
-                <p>Price: ${course.price}</p>
-              </>
-            ) : (
-              // Render video if unlocked
-              <iframe
-                title={course.title}
-                width='100%'
-                height='315'
-                src={course.videoUrl}
-                frameBorder='0'
-                allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-                allowFullScreen
-              ></iframe>
-            )}
-          </div>
-        ))}
+    <div
+      className='relative min-h-screen bg-cover'
+      style={{ backgroundImage: `url(${backImage})` }}
+    >
+      <div className='absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
+        <h2 className='text-3xl font-bold mb-20 text-center'>
+          Cursuri Musat Signature
+        </h2>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-4 lg:mx-0'>
+          {courses.map((course, index) => (
+            <div
+              key={index}
+              className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
+            >
+              <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
+              <p className='text-gray-600 mb-4'>{course.description}</p>
+              {!userData || !userData.subscriptions.includes(course.title) ? (
+                // Render payment button if not unlocked
+                <>
+                  <button
+                    className='text-green-500 font-bold mb-2'
+                    onClick={(event) => handlePay(event, course.title)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Pay to Unlock
+                  </button>
+                  <p>Price: ${course.price}</p>
+                </>
+              ) : (
+                // Render video if unlocked
+                <iframe
+                  title={course.title}
+                  width='100%'
+                  height='315'
+                  src={course.videoUrl}
+                  frameBorder='0'
+                  allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
