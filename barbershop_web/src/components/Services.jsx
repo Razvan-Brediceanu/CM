@@ -32,7 +32,7 @@ function ServicesComponent() {
         {servicesData.map((service) => (
           <div
             key={service.id}
-            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105'
+            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
           >
             <h3 className='text-xl font-semibold mb-2'>{service.title}</h3>
             <p className='text-gray-600 mb-4'>{service.description}</p>

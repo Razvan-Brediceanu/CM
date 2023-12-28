@@ -84,7 +84,10 @@ const CoursesPage = () => {
       </h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {courses.map((course, index) => (
-          <div key={index} className='bg-white p-6 rounded-lg shadow-lg'>
+          <div
+            key={index}
+            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
+          >
             <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
             <p className='text-gray-600 mb-4'>{course.description}</p>
             {!userData || !userData.subscriptions.includes(course.title) ? (
