@@ -39,14 +39,6 @@ const RegisterForm = ({ setIsLoginPage }) => {
 
       console.log('Registration successful', response.data)
 
-      // Check if the server response indicates an error (account already exists)
-      if (
-        response.data.error &&
-        response.data.error === 'Username or email already exists.'
-      ) {
-        throw new Error(response.data.error)
-      }
-
       // Provide feedback to the user (e.g., redirect to login page)
       // You might use React Router for this.
       setShouldRedirect(true)
@@ -59,10 +51,18 @@ const RegisterForm = ({ setIsLoginPage }) => {
       })
     } catch (error) {
       console.error('Registration failed', error)
-      setRegistrationError(
-        error.message ||
+
+      if (error.response && error.response.status === 400) {
+        // Server returned a 400 status code (bad request)
+        setRegistrationError(
+          error.response.data.error ||
+            'Registration failed. An account with these credentials already exists.'
+        )
+      } else {
+        setRegistrationError(
           'Registration failed. Please check your information and try again.'
-      )
+        )
+      }
     } finally {
       setIsLoading(false)
     }
