@@ -82,7 +82,7 @@ const CoursesPage = () => {
       <h2 className='text-3xl font-semibold mb-20 text-center'>
         Cursuri Musat Signature
       </h2>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {courses.map((course, index) => (
           <div key={index} className='bg-white p-6 rounded-lg shadow-lg'>
             <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
@@ -91,7 +91,7 @@ const CoursesPage = () => {
               // Render payment button if not unlocked
               <>
                 <button
-                  className='text-green-500 font-bold'
+                  className='text-green-500 font-bold mb-2'
                   onClick={(event) => handlePay(event, course.title)}
                   style={{ cursor: 'pointer' }}
                 >
