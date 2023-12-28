@@ -86,7 +86,7 @@ const CoursesPage = () => {
         {courses.map((course, index) => (
           <div
             key={index}
-            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 sm:hover:scale-100'
+            className='bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 sm:hover:scale-100 border border-gray-300'
           >
             <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
             <p className='text-gray-600 mb-4'>{course.description}</p>
