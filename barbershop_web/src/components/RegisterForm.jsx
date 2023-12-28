@@ -39,6 +39,11 @@ const RegisterForm = ({ setIsLoginPage }) => {
 
       console.log('Registration successful', response.data)
 
+      // Check if the server response indicates an error (account already exists)
+      if (response.data.error) {
+        throw new Error(response.data.error)
+      }
+
       // Provide feedback to the user (e.g., redirect to login page)
       // You might use React Router for this.
       setShouldRedirect(true)
