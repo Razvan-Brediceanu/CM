@@ -83,7 +83,7 @@ const CoursesPage = () => {
       className='relative min-h-screen bg-cover'
       style={{ backgroundImage: `url(${backImage})` }}
     >
-      <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
+      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
         <h2 className='text-3xl font-bold mb-8 lg:mb-20 text-center sm:mb-16 md:mb-20 lg:mb-24'>
           Cursuri Musat Signature
         </h2>
@@ -92,6 +92,7 @@ const CoursesPage = () => {
             <div
               key={index}
               className='bg-white p-4 sm:p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 border border-gray-300'
+              style={{ position: 'relative', overflow: 'hidden' }}
             >
               <h3 className='text-xl font-semibold mb-2'>{course.title}</h3>
               <p className='text-gray-600 mb-4'>{course.description}</p>
@@ -117,6 +118,13 @@ const CoursesPage = () => {
                   frameBorder='0'
                   allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
                   allowFullScreen
+                  style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                  }}
+                  className='sm:top-[40%] sm:mb-4'
                 ></iframe>
               )}
             </div>
