@@ -83,7 +83,7 @@ const CoursesPage = () => {
       className='relative min-h-screen bg-cover'
       style={{ backgroundImage: `url(${backImage})` }}
     >
-      <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text'>
+      <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2 container mx-auto px-4 lg:px-8 font-bold your-permanent-marker-text sm:top-1/2'>
         <h2 className='text-3xl font-bold mb-8 lg:mb-20 text-center sm:mb-16 md:mb-20 lg:mb-24'>
           Cursuri Musat Signature
         </h2>
