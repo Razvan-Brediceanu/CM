@@ -34,7 +34,7 @@ const LoginForm = ({ setIsLoginPage }) => {
       }
 
       const response = await axios.post(
-        `${apiBaseURL}/user/login`, // Adjust the endpoint
+        `${apiBaseURL}/login`, // Adjust the endpoint
         loginData,
         {
           withCredentials: true,
