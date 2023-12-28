@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Navigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 
-const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 
 const RegisterForm = ({ setIsLoginPage }) => {
   const [registrationData, setRegistrationData] = useState({

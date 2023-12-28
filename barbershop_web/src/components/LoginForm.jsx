@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom'
 
 const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 
-console.log(apiBaseURL)
-
 const LoginForm = ({ setIsLoginPage }) => {
   const navigate = useNavigate()
   const [loginData, setLoginData] = useState({
