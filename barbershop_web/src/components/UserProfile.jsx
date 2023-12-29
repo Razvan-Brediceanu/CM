@@ -33,7 +33,25 @@ const UserProfile = () => {
       return newToken
     } catch (error) {
       console.error('Error refreshing token', error)
-      throw error
+
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error details:', {
+          response: error.response,
+          request: error.request,
+          config: error.config,
+        })
+
+        if (error.response?.status === 401) {
+          // Handle 401 unauthorized (e.g., redirect to login)
+          navigate('/login')
+        } else {
+          // Handle other errors as needed
+          throw new Error('Error refreshing token')
+        }
+      } else {
+        // Handle non-Axios errors
+        throw error
+      }
     }
   }
 
