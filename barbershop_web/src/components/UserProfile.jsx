@@ -54,8 +54,13 @@ const UserProfile = () => {
 
         const expirationThreshold = 5 * 60 * 1000
         if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
-          const newToken = await getNewToken()
-          localStorage.setItem('jwtToken', newToken)
+          try {
+            const newToken = await getNewToken()
+            localStorage.setItem('jwtToken', newToken)
+          } catch (refreshError) {
+            console.error('Error refreshing token', refreshError)
+            throw new Error('Error refreshing token')
+          }
         }
 
         const response = await axios.get(`${apiBaseURL}/user/profile`, {
@@ -72,7 +77,7 @@ const UserProfile = () => {
         console.error('Error loading user data', error)
 
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          setError('User is not authenticated. Please log in.')
+          setError('User is not authenticated. Redirecting to login.')
           navigate('/login')
         } else {
           setError('An unexpected error occurred. Please try again later.')
@@ -108,10 +113,34 @@ const UserProfile = () => {
           )}
         </h2>
         {userData ? (
-          <div>{/* ... (existing user data rendering code) */}</div>
+          <div>
+            <p className='text-lg mb-3'>
+              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
+                Username:
+              </strong>{' '}
+              {userData.username}
+            </p>
+            <p className='text-lg mb-3'>
+              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
+                Email:
+              </strong>{' '}
+              {userData.email}
+            </p>
+            <p className='text-lg mb-3'>
+              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
+                Subscription Status:
+              </strong>{' '}
+              {userData.subscriptions && userData.subscriptions.length > 0 ? (
+                <span className='text-green-500'>Subscribed</span>
+              ) : (
+                <span className='text-red-500'>Not subscribed</span>
+              )}
+            </p>
+            {/* Add more user information as needed */}
+          </div>
         ) : (
           <div className='text-red-500'>
-            <p>{error}</p>
+            <p>Error loading user data.</p>
           </div>
         )}
       </div>
