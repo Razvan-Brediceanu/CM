@@ -72,6 +72,9 @@ const CoursesPage = () => {
       // Fetch payment intent from your serverless function
       const clientSecret = await fetchPaymentIntent(course.title, course.price)
 
+      // Log the received clientSecret
+      console.log('Received clientSecret:', clientSecret)
+
       // Confirm the payment with Stripe
       const stripe = await stripePromise
       const { paymentIntent, error } = await stripe.confirmCardPayment(
@@ -80,6 +83,10 @@ const CoursesPage = () => {
           payment_method: 'pm_card_visa', // Replace with actual payment method
         }
       )
+
+      // Log the results of the payment confirmation
+      console.log('Payment intent result:', paymentIntent)
+      console.log('Payment error:', error)
 
       if (error) {
         console.error('Payment failed:', error.message)
