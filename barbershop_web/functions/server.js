@@ -38,7 +38,23 @@ mongoose
 
 // Stripe Connect Onboarding Endpoint
 app.post('/create-account-link', async (req, res) => {
-  // ... (existing code remains unchanged)
+  try {
+    const account = await stripe.accounts.create({
+      type: 'express',
+    })
+
+    const accountLink = await stripe.accountLinks.create({
+      account: account.id,
+      refresh_url: 'https://geeks4life.netlify.app/onboarding/refresh', // Replace with your onboarding URLs
+      return_url: 'https://geeks4life.netlify.app/onboarding/success',
+      type: 'account_onboarding',
+    })
+
+    res.json({ url: accountLink.url })
+  } catch (error) {
+    console.error('Error creating account link:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
 })
 
 // Include the new Stripe Payment Endpoint
