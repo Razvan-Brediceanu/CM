@@ -47,8 +47,14 @@ const CoursesPage = () => {
 
   const fetchPaymentIntent = async (courseTitle, coursePrice) => {
     try {
+      // Check if coursePrice is a valid number
+      if (isNaN(coursePrice) || coursePrice <= 0) {
+        console.error('Invalid course price:', coursePrice)
+        throw new Error('Invalid course price')
+      }
+
       const payload = {
-        amount: coursePrice * 100, // Amount in cents
+        amount: Math.round(coursePrice * 100), // Amount in cents
       }
 
       console.log('Request payload:', payload)
