@@ -20,7 +20,7 @@ const userRouter = require('./routes/users')
 const refreshTokenRouter = require('./routes/refreshToken')
 
 // Update the route for refreshToken
-app.use('/.netlify/functions/server/routes/refreshToken', refreshTokenRouter)
+app.use('/.netlify/functions/server/routes/refresh', refreshTokenRouter)
 
 // Connect to MongoDB
 mongoose
