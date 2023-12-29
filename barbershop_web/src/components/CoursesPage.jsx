@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 import { loadStripe } from '@stripe/stripe-js'
 
-const apiBaseURL = '/.netlify/functions/server' // Adjust the base path for Netlify functions
+const apiBaseURL = '/.netlify/functions' // Adjust the base path for Netlify functions
 
 const stripePromise = loadStripe(
   'pk_test_51OSbm5AMGDZssiK7wgZWJHRloDfLJXS60EXx3Pd2GXLqU5IrOWx8YTg4d7Atlk1jCTwEVN2Zll1oEq4xcXlriUTJ00Bend1W0D'
