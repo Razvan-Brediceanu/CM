@@ -67,10 +67,20 @@ const UserProfile = () => {
 
         setUserData(response.data)
       } catch (error) {
-        console.error('Error loading user data', error)
+        console.error('Error refreshing token', error)
 
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          navigate('/login')
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            setError('User is not authenticated. Please log in.')
+            navigate('/login')
+          } else if (error.response?.status === 403) {
+            setError('Session expired. Please log in again.')
+            navigate('/login')
+          } else {
+            setError('An unexpected error occurred. Please try again later.')
+          }
+        } else {
+          setError('An unexpected error occurred. Please try again later.')
         }
       } finally {
         setIsLoading(false)
