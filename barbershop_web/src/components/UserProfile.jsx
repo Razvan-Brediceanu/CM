@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
