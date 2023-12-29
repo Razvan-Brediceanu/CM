@@ -39,7 +39,13 @@ const CoursesPage = () => {
         // Add more courses as needed
       ]
 
-      setCourses(mockCourses)
+      // Ensure each course has a default price
+      const coursesWithDefaultPrice = mockCourses.map((course) => ({
+        ...course,
+        price: course.price || 0, // Use 0 as a default price if it's undefined
+      }))
+
+      setCourses(coursesWithDefaultPrice)
     } catch (error) {
       console.error('Error fetching courses', error)
     }
