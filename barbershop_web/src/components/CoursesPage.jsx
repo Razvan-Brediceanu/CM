@@ -47,7 +47,7 @@ const CoursesPage = () => {
 
   const fetchPaymentIntent = async (courseTitle, coursePrice) => {
     try {
-      const response = await fetch(`${apiBaseURL}/create-payment`, {
+      const response = await fetch(`${apiBaseURL}/erver/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
