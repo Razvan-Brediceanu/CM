@@ -57,7 +57,12 @@ const CoursesPage = () => {
         }),
       })
 
-      const { clientSecret } = await response.json()
+      const responseData = await response.json()
+      console.log('Received response data:', responseData)
+
+      const { clientSecret } = responseData
+      console.log('Received clientSecret:', clientSecret)
+
       return clientSecret
     } catch (error) {
       console.error('Error fetching payment intent', error)
