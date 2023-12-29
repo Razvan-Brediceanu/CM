@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -96,7 +97,7 @@ const UserProfile = () => {
     }
 
     fetchUserData()
-  }, [navigate])
+  }, [getNewToken, navigate])
 
   if (isLoading) {
     return <div className='text-center my-8'>Loading...</div>
