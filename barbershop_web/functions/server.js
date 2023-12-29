@@ -44,7 +44,7 @@ app.post('/create-account-link', async (req, res) => {
 // Include the new Stripe Payment Endpoint
 app.use(
   '/.netlify/functions/server/create-payment',
-  require('./functions/create-payment')
+  require('./create-payment')
 )
 
 // Use serverless-http to wrap your Express app
