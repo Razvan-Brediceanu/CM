@@ -11,6 +11,7 @@ const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   const getNewToken = async () => {
@@ -40,17 +41,41 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // ... (existing code)
+        const jwtToken = localStorage.getItem('jwtToken')
+        console.log('JWT Token:', jwtToken)
+
+        if (!jwtToken) {
+          setError('User is not authenticated. Please log in.')
+          setIsLoading(false)
+          return
+        }
+
+        const decodedToken = jwt_decode(jwtToken)
+
+        const expirationThreshold = 5 * 60 * 1000
+        if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
+          const newToken = await getNewToken()
+          localStorage.setItem('jwtToken', newToken)
+        }
+
+        const response = await axios.get(`${apiBaseURL}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        })
+
+        console.log('User Data:', response.data)
+
+        setUserData(response.data)
       } catch (error) {
         console.error('Error loading user data', error)
 
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          // Prompt the user to re-login
-          console.log('User is not authenticated. Redirecting to login.')
+          setError('User is not authenticated. Please log in.')
           navigate('/login')
         } else {
-          // Handle other errors or display a more specific message
-          console.error('Unexpected error:', error)
+          setError('An unexpected error occurred. Please try again later.')
         }
       } finally {
         setIsLoading(false)
