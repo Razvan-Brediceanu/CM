@@ -108,34 +108,10 @@ const UserProfile = () => {
           )}
         </h2>
         {userData ? (
-          <div>
-            <p className='text-lg mb-3'>
-              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
-                Username:
-              </strong>{' '}
-              {userData.username}
-            </p>
-            <p className='text-lg mb-3'>
-              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
-                Email:
-              </strong>{' '}
-              {userData.email}
-            </p>
-            <p className='text-lg mb-3'>
-              <strong className='text-gray-600 font-bold your-permanent-marker-text'>
-                Subscription Status:
-              </strong>{' '}
-              {userData.subscriptions && userData.subscriptions.length > 0 ? (
-                <span className='text-green-500'>Subscribed</span>
-              ) : (
-                <span className='text-red-500'>Not subscribed</span>
-              )}
-            </p>
-            {/* Add more user information as needed */}
-          </div>
+          <div>{/* ... (existing user data rendering code) */}</div>
         ) : (
           <div className='text-red-500'>
-            <p>Error loading user data.</p>
+            <p>{error}</p>
           </div>
         )}
       </div>
