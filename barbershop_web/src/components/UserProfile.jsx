@@ -32,9 +32,9 @@ const UserProfile = () => {
       localStorage.setItem('jwtToken', newToken)
 
       return newToken
-    } catch (error) {
-      console.error('Error refreshing token', error)
-      throw error
+    } catch (refreshError) {
+      console.error('Error refreshing token', refreshError)
+      throw new Error('Error refreshing token')
     }
   }
 
