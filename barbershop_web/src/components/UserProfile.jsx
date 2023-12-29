@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -68,20 +67,10 @@ const UserProfile = () => {
 
         setUserData(response.data)
       } catch (error) {
-        console.error('Error refreshing token', error)
+        console.error('Error loading user data', error)
 
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 401) {
-            setError('User is not authenticated. Please log in.')
-            navigate('/login')
-          } else if (error.response?.status === 403) {
-            setError('Session expired. Please log in again.')
-            navigate('/login')
-          } else {
-            setError('An unexpected error occurred. Please try again later.')
-          }
-        } else {
-          setError('An unexpected error occurred. Please try again later.')
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          navigate('/login')
         }
       } finally {
         setIsLoading(false)
