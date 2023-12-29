@@ -2,9 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const serverless = require('serverless-http')
-const stripe = require('stripe')(
-  'sk_test_51OSbm5AMGDZssiK7U9w7grJ9DyAVKet0Dk4REGBA6fsNbvVp0J2juxxYlKCe3S8CEJcR2ccGN4fTkNi7sXWDzNfy00vh5QcLYA'
-)
+const stripe = require('stripe')('your_stripe_secret_key')
 
 const app = express()
 
@@ -21,8 +19,8 @@ app.use(express.json())
 const userRouter = require('./routes/users')
 const refreshTokenRouter = require('./routes/refreshToken')
 
-app.use('/.netlify/functions/server/user', userRouter)
-app.use('/.netlify/functions/server/refresh', refreshTokenRouter)
+// Update the route for refreshToken
+app.use('/.netlify/functions/server/routes/refreshToken', refreshTokenRouter)
 
 // Connect to MongoDB
 mongoose
