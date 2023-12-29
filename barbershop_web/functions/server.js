@@ -1,9 +1,10 @@
-// server.js
-
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const serverless = require('serverless-http')
+const stripe = require('stripe')(
+  'sk_test_51OSbm5AMGDZssiK7U9w7grJ9DyAVKet0Dk4REGBA6fsNbvVp0J2juxxYlKCe3S8CEJcR2ccGN4fTkNi7sXWDzNfy00vh5QcLYA'
+)
 
 const app = express()
 
@@ -57,11 +58,20 @@ app.post('/create-account-link', async (req, res) => {
   }
 })
 
-// Include the new Stripe Payment Endpoint
-app.use(
-  '/.netlify/functions/server/create-payment',
-  require('./create-payment')
-)
+// Stripe Payment Endpoint
+app.post('/create-payment', async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: req.body.amount,
+      currency: 'usd',
+    })
+
+    res.json({ clientSecret: paymentIntent.client_secret })
+  } catch (error) {
+    console.error('Error creating payment intent:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+})
 
 // Use serverless-http to wrap your Express app
 const handler = serverless(app)
