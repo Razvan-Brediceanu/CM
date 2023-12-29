@@ -90,6 +90,8 @@ const CoursesPage = () => {
     event.preventDefault()
 
     try {
+      console.log('Handling payment for course:', course)
+
       if (!course || typeof course.price !== 'number') {
         console.error('Invalid course:', course)
         throw new Error('Invalid course')
