@@ -24,7 +24,7 @@ const UserProfile = () => {
         throw new Error('Refresh token is missing.')
       }
 
-      const response = await axios.post(`${apiBaseURL}/auth/refresh`, {
+      const response = await axios.post(`${apiBaseURL}/refresh/refresh`, {
         refresh_token: refreshToken,
       })
 
@@ -32,9 +32,9 @@ const UserProfile = () => {
       localStorage.setItem('jwtToken', newToken)
 
       return newToken
-    } catch (refreshError) {
-      console.error('Error refreshing token', refreshError)
-      throw new Error('Error refreshing token')
+    } catch (error) {
+      console.error('Error refreshing token', error)
+      throw error
     }
   }
 
