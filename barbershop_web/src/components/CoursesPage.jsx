@@ -178,7 +178,7 @@ const CoursesPage = () => {
                 <>
                   <button
                     className='text-green-500 font-bold mb-2'
-                    onClick={(event) => handlePay(event, course.title)}
+                    onClick={(event) => handlePay(event, course)} // Pass the entire course object
                     style={{ cursor: 'pointer' }}
                   >
                     Pay to Unlock
