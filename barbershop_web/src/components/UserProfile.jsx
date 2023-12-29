@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,62 +6,41 @@ import { jwtDecode as jwt_decode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 
-const apiBaseURL = '/.netlify/functions' // Adjust the base path
+const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const getNewToken = async () => {
-        try {
-          const refreshToken = localStorage.getItem('refreshToken')
-          console.log(`Refresh token: ${refreshToken}`)
+  const getNewToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken')
+      console.log(`Refresh token: ${refreshToken}`)
 
-          if (!refreshToken) {
-            console.error('Refresh token is missing.')
-            throw new Error('Refresh token is missing.')
-          }
-          const response = await axios.post(
-            `${apiBaseURL}/routes/refreshToken`,
-            {
-              refresh_token: refreshToken,
-            }
-          )
-
-          const newToken = response.data.accessToken
-          localStorage.setItem('jwtToken', newToken)
-
-          return newToken
-        } catch (error) {
-          console.error('Error refreshing token', error)
-
-          if (axios.isAxiosError(error)) {
-            console.error('Axios error details:', {
-              response: error.response,
-              request: error.request,
-              config: error.config,
-            })
-
-            if (error.response?.status === 401) {
-              // Handle 401 unauthorized (e.g., redirect to login)
-              navigate('/login')
-            } else {
-              // Handle other errors as needed
-              throw new Error('Error refreshing token')
-            }
-          } else {
-            // Handle non-Axios errors
-            throw error
-          }
-        }
+      if (!refreshToken) {
+        console.error('Refresh token is missing.')
+        throw new Error('Refresh token is missing.')
       }
 
+      const response = await axios.post(`${apiBaseURL}/auth/refresh`, {
+        refresh_token: refreshToken,
+      })
+
+      const newToken = response.data.accessToken
+      localStorage.setItem('jwtToken', newToken)
+
+      return newToken
+    } catch (error) {
+      console.error('Error refreshing token', error)
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
         const jwtToken = localStorage.getItem('jwtToken')
-        console.log('JWT Token:', jwtToken)
 
         if (!jwtToken) {
           navigate('/login')
@@ -77,7 +55,7 @@ const UserProfile = () => {
           localStorage.setItem('jwtToken', newToken)
         }
 
-        const response = await axios.get(`${apiBaseURL}/server/user/profile`, {
+        const response = await axios.get(`${apiBaseURL}/user/profile`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
