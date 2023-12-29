@@ -20,7 +20,7 @@ const userRouter = require('./routes/users')
 const refreshTokenRouter = require('./routes/refreshToken')
 
 // Update the route for refreshToken
-app.use('/.netlify/functions/server/routes/refresh', refreshTokenRouter)
+app.use('/.netlify/functions/server/routes/refreshToken', refreshTokenRouter)
 
 // Connect to MongoDB
 mongoose
@@ -57,7 +57,7 @@ app.post('/.netlify/functions/server/create-account-link', async (req, res) => {
 })
 
 // Stripe Payment Endpoint
-app.post('/.netlify/functions/create-payment', async (req, res) => {
+app.post('/.netlify/functions/server/create-payment', async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: req.body.amount,
