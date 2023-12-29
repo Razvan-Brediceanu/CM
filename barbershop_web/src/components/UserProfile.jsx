@@ -7,7 +7,7 @@ import { jwtDecode as jwt_decode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
 
-const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
+const apiBaseURL = '/.netlify/functions' // Adjust the base path
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
@@ -26,7 +26,7 @@ const UserProfile = () => {
             throw new Error('Refresh token is missing.')
           }
           const response = await axios.post(
-            `${apiBaseURL}/routes/refreshToken`, // Make sure this path is correct
+            `${apiBaseURL}/server/routes/refreshToken`, // Adjust the path accordingly
             {
               refresh_token: refreshToken,
             }
@@ -77,7 +77,7 @@ const UserProfile = () => {
           localStorage.setItem('jwtToken', newToken)
         }
 
-        const response = await axios.get(`${apiBaseURL}/user/profile`, {
+        const response = await axios.get(`${apiBaseURL}/server/user/profile`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
