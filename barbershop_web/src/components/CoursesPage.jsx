@@ -47,14 +47,18 @@ const CoursesPage = () => {
 
   const fetchPaymentIntent = async (courseTitle, coursePrice) => {
     try {
+      const payload = {
+        amount: coursePrice * 100, // Amount in cents
+      }
+
+      console.log('Request payload:', payload)
+
       const response = await fetch(`${apiBaseURL}/create-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          amount: coursePrice * 100, // Amount in cents
-        }),
+        body: JSON.stringify(payload),
       })
 
       const responseData = await response.json()
