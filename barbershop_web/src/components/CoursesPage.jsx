@@ -90,6 +90,11 @@ const CoursesPage = () => {
     event.preventDefault()
 
     try {
+      if (!course || typeof course.price !== 'number') {
+        console.error('Invalid course:', course)
+        throw new Error('Invalid course')
+      }
+
       // Fetch payment intent from your serverless function
       const clientSecret = await fetchPaymentIntent(course.title, course.price)
 
@@ -101,7 +106,7 @@ const CoursesPage = () => {
       const { paymentIntent, error } = await stripe.confirmCardPayment(
         clientSecret,
         {
-          payment_method: 'pm_card_visa', // Replace with actual payment method
+          payment_method: 'pm_card_visa', // Replace with the actual payment method
         }
       )
 
