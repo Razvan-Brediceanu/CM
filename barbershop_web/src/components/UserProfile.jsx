@@ -40,37 +40,17 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const jwtToken = localStorage.getItem('jwtToken')
-        console.log('JWT Token:', jwtToken)
-
-        if (!jwtToken) {
-          navigate('/login')
-          return
-        }
-
-        const decodedToken = jwt_decode(jwtToken)
-
-        const expirationThreshold = 5 * 60 * 1000
-        if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
-          const newToken = await getNewToken()
-          localStorage.setItem('jwtToken', newToken)
-        }
-
-        const response = await axios.get(`${apiBaseURL}/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-          withCredentials: true,
-        })
-
-        console.log('User Data:', response.data)
-
-        setUserData(response.data)
+        // ... (existing code)
       } catch (error) {
         console.error('Error loading user data', error)
 
         if (axios.isAxiosError(error) && error.response?.status === 401) {
+          // Prompt the user to re-login
+          console.log('User is not authenticated. Redirecting to login.')
           navigate('/login')
+        } else {
+          // Handle other errors or display a more specific message
+          console.error('Unexpected error:', error)
         }
       } finally {
         setIsLoading(false)
