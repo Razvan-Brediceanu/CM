@@ -11,7 +11,6 @@ const apiBaseURL = '/.netlify/functions/server' // Adjust the base path
 const UserProfile = () => {
   const [userData, setUserData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   const getNewToken = async () => {
@@ -24,7 +23,7 @@ const UserProfile = () => {
         throw new Error('Refresh token is missing.')
       }
 
-      const response = await axios.post(`${apiBaseURL}/refresh/refresh`, {
+      const response = await axios.post(`${apiBaseURL}/auth/refresh`, {
         refresh_token: refreshToken,
       })
 
@@ -45,8 +44,7 @@ const UserProfile = () => {
         console.log('JWT Token:', jwtToken)
 
         if (!jwtToken) {
-          setError('User is not authenticated. Please log in.')
-          setIsLoading(false)
+          navigate('/login')
           return
         }
 
@@ -54,13 +52,8 @@ const UserProfile = () => {
 
         const expirationThreshold = 5 * 60 * 1000
         if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
-          try {
-            const newToken = await getNewToken()
-            localStorage.setItem('jwtToken', newToken)
-          } catch (refreshError) {
-            console.error('Error refreshing token', refreshError)
-            throw new Error('Error refreshing token')
-          }
+          const newToken = await getNewToken()
+          localStorage.setItem('jwtToken', newToken)
         }
 
         const response = await axios.get(`${apiBaseURL}/user/profile`, {
@@ -77,10 +70,7 @@ const UserProfile = () => {
         console.error('Error loading user data', error)
 
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          setError('User is not authenticated. Redirecting to login.')
           navigate('/login')
-        } else {
-          setError('An unexpected error occurred. Please try again later.')
         }
       } finally {
         setIsLoading(false)
