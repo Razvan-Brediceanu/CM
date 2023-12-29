@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import backImage from '../images/LoginRegister2.jpg'
+import { loadStripe } from '@stripe/stripe-js'
 
+const apiBaseURL = '/.netlify/functions/server' // Adjust the base path for Netlify functions
+
+const stripePromise = loadStripe(
+  'pk_test_51OSbm5AMGDZssiK7wgZWJHRloDfLJXS60EXx3Pd2GXLqU5IrOWx8YTg4d7Atlk1jCTwEVN2Zll1oEq4xcXlriUTJ00Bend1W0D'
+)
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
   const [userData, setUserData] = useState(null)
@@ -39,18 +45,55 @@ const CoursesPage = () => {
     }
   }
 
-  const handlePay = (event, courseTitle) => {
-    event.preventDefault() // Prevent default form submission behavior
+  const fetchPaymentIntent = async (courseTitle, coursePrice) => {
+    try {
+      const response = await fetch(`${apiBaseURL}/create-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: coursePrice * 100, // Amount in cents
+        }),
+      })
 
-    // Simulate payment logic
-    // Replace this with your actual payment logic
-    console.log(`Payment successful for ${courseTitle}`)
+      const { clientSecret } = await response.json()
+      return clientSecret
+    } catch (error) {
+      console.error('Error fetching payment intent', error)
+      throw new Error('Failed to fetch payment intent')
+    }
+  }
 
-    // Update user's subscriptions to unlock the course
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      subscriptions: [...prevUserData.subscriptions, courseTitle],
-    }))
+  const handlePay = async (event, course) => {
+    event.preventDefault()
+
+    try {
+      // Fetch payment intent from your serverless function
+      const clientSecret = await fetchPaymentIntent(course.title, course.price)
+
+      // Confirm the payment with Stripe
+      const stripe = await stripePromise
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: 'pm_card_visa', // Replace with actual payment method
+        }
+      )
+
+      if (error) {
+        console.error('Payment failed:', error.message)
+      } else {
+        console.log('Payment succeeded:', paymentIntent)
+        // Update user's subscriptions to unlock the course
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          subscriptions: [...prevUserData.subscriptions, course.title],
+        }))
+      }
+    } catch (error) {
+      console.error('Error handling payment:', error)
+    }
   }
 
   useEffect(() => {
@@ -76,7 +119,7 @@ const CoursesPage = () => {
 
     fetchUserData()
     fetchCourses()
-  }, [navigate]) // Include navigate in the dependency array
+  }, [navigate])
 
   return (
     <div
