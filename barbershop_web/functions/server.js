@@ -38,7 +38,7 @@ mongoose
   })
 
 // Stripe Connect Onboarding Endpoint
-app.post('/create-account-link', async (req, res) => {
+app.post('/.netlify/functions/server/create-account-link', async (req, res) => {
   try {
     const account = await stripe.accounts.create({
       type: 'express',
@@ -46,7 +46,7 @@ app.post('/create-account-link', async (req, res) => {
 
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: 'https://geeks4life.netlify.app/onboarding/refresh', // Replace with your onboarding URLs
+      refresh_url: 'https://geeks4life.netlify.app/onboarding/refresh',
       return_url: 'https://geeks4life.netlify.app/onboarding/success',
       type: 'account_onboarding',
     })
@@ -59,7 +59,7 @@ app.post('/create-account-link', async (req, res) => {
 })
 
 // Stripe Payment Endpoint
-app.post('/create-payment', async (req, res) => {
+app.post('/.netlify/functions/create-payment', async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: req.body.amount,
@@ -79,12 +79,4 @@ const handler = serverless(app)
 // Define a function to handle requests for serverless deployment
 exports.handler = async function (event, context) {
   return await handler(event, context)
-}
-
-// This part is not needed for serverless deployment, it's for local testing
-if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
-  const PORT = process.env.PORT || 3000
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-  })
 }
