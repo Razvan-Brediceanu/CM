@@ -27,6 +27,8 @@ const UserProfile = () => {
         refresh_token: refreshToken,
       })
 
+      console.log('Refresh response:', response)
+
       const newToken = response.data.accessToken
       localStorage.setItem('jwtToken', newToken)
 
