@@ -23,7 +23,7 @@ const UserProfile = () => {
         throw new Error('Refresh token is missing.')
       }
 
-      const response = await axios.post(`${apiBaseURL}/routes/refresh`, {
+      const response = await axios.post(`${apiBaseURL}/refresh`, {
         refresh_token: refreshToken,
       })
 
@@ -55,7 +55,7 @@ const UserProfile = () => {
           localStorage.setItem('jwtToken', newToken)
         }
 
-        const response = await axios.get(`${apiBaseURL}/routes/user/profile`, {
+        const response = await axios.get(`${apiBaseURL}/user/profile`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
