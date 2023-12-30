@@ -17,8 +17,8 @@ app.use(express.json())
 const userRouter = require('./routes/users')
 const refreshTokenRouter = require('./routes/refreshToken')
 
-app.use('/.netlify/functions/server/routes/user', userRouter) // Adjust the base path
-app.use('/.netlify/functions/server/routes/refresh', refreshTokenRouter) // Adjust the base path
+app.use('/.netlify/functions/server/user', userRouter) // Adjust the base path
+app.use('/.netlify/functions/server/refresh', refreshTokenRouter) // Adjust the base path
 
 // Connect to MongoDB
 mongoose
