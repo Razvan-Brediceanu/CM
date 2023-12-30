@@ -23,7 +23,7 @@ const UserProfile = () => {
         throw new Error('Refresh token is missing.')
       }
 
-      const refreshURL = `${apiBaseURL}/refresh`
+      const refreshURL = `${apiBaseURL}/refresh/refresh`
       console.log('Refresh URL:', refreshURL)
 
       const response = await axios.post(refreshURL, {
