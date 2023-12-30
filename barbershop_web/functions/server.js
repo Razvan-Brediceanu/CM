@@ -15,7 +15,7 @@ app.use(express.json())
 
 // Routes
 const userRouter = require('./routes/users')
-const refreshTokenRouter = require('./routes/refreshToken')
+const refreshTokenRouter = require('./refreshToken')
 
 app.use('/.netlify/functions/server/user', userRouter) // Adjust the base path
 app.use('/.netlify/functions/server/refresh', refreshTokenRouter) // Adjust the base path
