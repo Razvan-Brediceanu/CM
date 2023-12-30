@@ -19,8 +19,6 @@ const Activities = ({ onLoginClick }) => {
 
   // Function to handle the logout
   const handleLogout = () => {
-    // Implement your logout logic here
-    console.log('Logging out...')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('jwtToken')
     navigate('/') // Redirect to the home page or the desired page after logout
