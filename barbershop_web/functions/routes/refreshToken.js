@@ -26,10 +26,12 @@ const getUserByRefreshToken = async (refreshToken) => {
 // Route to refresh the access token
 router.post('/', async (req, res) => {
   const { refreshToken } = req.body
+  console.log('Received refresh token:', refreshToken)
 
   try {
     // Verify the refresh token and get user data
     const user = await getUserByRefreshToken(refreshToken)
+    console.log('User found:', user)
 
     // Generate a new access token
     const accessToken = jwt.sign({ userId: user.id }, secretKey, {
@@ -37,6 +39,7 @@ router.post('/', async (req, res) => {
     })
 
     // Send the new access token in the response
+    console.log('New access token generated:', accessToken)
     res.json({ accessToken })
   } catch (error) {
     console.error('Error refreshing access token:', error.message)
