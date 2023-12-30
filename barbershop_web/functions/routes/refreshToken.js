@@ -23,6 +23,16 @@ const getUserByRefreshToken = async (refreshToken) => {
   }
 }
 
+// Function to check if the refresh token has expired
+const isRefreshTokenExpired = (decodedToken) => {
+  if (!decodedToken.exp) {
+    return true // Token has no expiration time, consider it expired
+  }
+
+  const currentTime = Math.floor(Date.now() / 1000) // Current time in seconds
+  return decodedToken.exp < currentTime
+}
+
 // Route to refresh the access token
 router.post('/', async (req, res) => {
   const { refreshToken } = req.body
@@ -31,9 +41,18 @@ router.post('/', async (req, res) => {
     // Verify the refresh token and get user data
     const user = await getUserByRefreshToken(refreshToken)
 
+    // Decode the refresh token to check expiration
+    const decodedRefreshToken = jwt.decode(refreshToken)
+
+    // Check if the refresh token has expired
+    const isExpired = isRefreshTokenExpired(decodedRefreshToken)
+    if (isExpired) {
+      throw new Error('Refresh token has expired')
+    }
+
     // Generate a new access token
     const accessToken = jwt.sign({ userId: user.id }, secretKey, {
-      expiresIn: '15m',
+      expiresIn: '7d',
     })
 
     // Send the new access token in the response

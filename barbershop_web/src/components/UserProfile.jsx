@@ -16,21 +16,17 @@ const UserProfile = () => {
   const getNewToken = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken')
-      console.log(`Refresh token: ${refreshToken}`)
 
       if (!refreshToken) {
         console.error('Refresh token is missing.')
         throw new Error('Refresh token is missing.')
       }
 
-      const refreshURL = `${apiBaseURL}/refresh/refresh`
-      console.log('Refresh URL:', refreshURL)
+      const refreshURL = `${apiBaseURL}/refresh`
 
       const response = await axios.post(refreshURL, {
         refresh_token: refreshToken,
       })
-
-      console.log('Refresh response:', response)
 
       const newToken = response.data.accessToken
       localStorage.setItem('jwtToken', newToken)
@@ -54,6 +50,13 @@ const UserProfile = () => {
 
         const decodedToken = jwt_decode(jwtToken)
 
+        // Check if the JWT token has expired
+        if (decodedToken.exp * 1000 < Date.now()) {
+          // Token has expired, navigate to login
+          navigate('/login')
+          return
+        }
+
         const expirationThreshold = 5 * 60 * 1000
         if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
           const newToken = await getNewToken()
@@ -66,8 +69,6 @@ const UserProfile = () => {
           },
           withCredentials: true,
         })
-
-        console.log('User Data:', response.data)
 
         setUserData(response.data)
       } catch (error) {
