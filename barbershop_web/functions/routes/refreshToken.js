@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
     // Send the new access token in the response
     res.json({ accessToken })
   } catch (error) {
-    console.error('Error refreshing access token:', error.message)
+    console.error('Error refreshing access token:', error)
     res.status(500).json({ error: `Internal Server Error: ${error.message}` })
   }
 })
