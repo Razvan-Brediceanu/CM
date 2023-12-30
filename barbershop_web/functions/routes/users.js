@@ -21,7 +21,7 @@ router.post('/register', createUser)
 router.post('/login', loginUser)
 
 // Include refreshToken route
-const refreshTokenRouter = require('./refreshToken')
+const refreshTokenRouter = require('../routes/refreshToken')
 router.use('/refresh', refreshTokenRouter)
 
 module.exports = router
