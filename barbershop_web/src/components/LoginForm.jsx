@@ -16,14 +16,6 @@ const LoginForm = ({ setIsLoginPage }) => {
   const [loginError, setLoginError] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => {
-    const jwtToken = localStorage.getItem('jwtToken')
-    if (jwtToken) {
-      setIsLoggedIn(true)
-      navigate('/') // Redirect to home page when logged in
-    }
-  }, [navigate])
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
     setLoginError(null)
@@ -46,7 +38,7 @@ const LoginForm = ({ setIsLoginPage }) => {
         localStorage.setItem('jwtToken', response.data.token)
         setIsLoggedIn(true)
         setLoginData({ email: '', password: '' })
-        navigate('/')
+        // Do not navigate here; let the effect handle it
       } else {
         console.error('Access token is missing in the response.')
         throw new Error('Access token is missing in the response.')
@@ -58,11 +50,15 @@ const LoginForm = ({ setIsLoginPage }) => {
       )
     } finally {
       setIsLoading(false)
-      if (!loginError) {
-        navigate('/') // Redirect to home page when there is no login error
-      }
     }
   }
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwtToken')
+    if (jwtToken && isLoggedIn) {
+      navigate('/')
+    }
+  }, [isLoggedIn, navigate])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
