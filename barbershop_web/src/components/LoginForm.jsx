@@ -22,7 +22,7 @@ const LoginForm = ({ setIsLoginPage }) => {
       setIsLoggedIn(true)
       navigate('/') // Redirect to home page when logged in
     }
-  }, [])
+  }, [navigate])
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
