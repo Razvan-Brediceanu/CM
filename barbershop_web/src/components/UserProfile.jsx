@@ -50,7 +50,6 @@ const UserProfile = () => {
 
         const decodedToken = jwt_decode(jwtToken)
 
-        // Check if the JWT token has expired
         if (decodedToken.exp * 1000 < Date.now()) {
           // Token has expired, navigate to login
           navigate('/login')
@@ -59,8 +58,13 @@ const UserProfile = () => {
 
         const expirationThreshold = 5 * 60 * 1000
         if (decodedToken.exp * 1000 - Date.now() < expirationThreshold) {
-          const newToken = await getNewToken()
-          localStorage.setItem('jwtToken', newToken)
+          try {
+            const newToken = await getNewToken()
+            localStorage.setItem('jwtToken', newToken)
+          } catch (error) {
+            console.error('Error refreshing token', error)
+            throw error // Rethrow the error if token refresh fails
+          }
         }
 
         const response = await axios.get(`${apiBaseURL}/user/profile`, {

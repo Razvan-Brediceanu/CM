@@ -16,6 +16,13 @@ const LoginForm = ({ setIsLoginPage }) => {
   const [loginError, setLoginError] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwtToken')
+    if (jwtToken) {
+      setIsLoggedIn(true)
+    }
+  }, [])
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
     setLoginError(null)
@@ -26,19 +33,23 @@ const LoginForm = ({ setIsLoginPage }) => {
         throw new Error('Invalid email.')
       }
 
-      const response = await axios.post(`${apiBaseURL}/user/login`, loginData, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const response = await axios.post(
+        `${apiBaseURL}/user/login`, // Adjust the endpoint
+        loginData,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
 
       if (response.data && response.data.token) {
         localStorage.setItem('refreshToken', response.data.refreshToken)
         localStorage.setItem('jwtToken', response.data.token)
         setIsLoggedIn(true)
         setLoginData({ email: '', password: '' })
-        // Do not navigate here; let the effect handle it
+        navigate('/')
       } else {
         console.error('Access token is missing in the response.')
         throw new Error('Access token is missing in the response.')
@@ -52,13 +63,6 @@ const LoginForm = ({ setIsLoginPage }) => {
       setIsLoading(false)
     }
   }
-
-  useEffect(() => {
-    const jwtToken = localStorage.getItem('jwtToken')
-    if (jwtToken && isLoggedIn) {
-      navigate('/')
-    }
-  }, [isLoggedIn, navigate])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
