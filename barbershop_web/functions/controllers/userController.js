@@ -52,34 +52,21 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    // Find the user by email
     const user = await User.findOne({ email })
 
-    // Check if the user exists
-    if (!user) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Invalid email or password.' })
     }
 
-    // Compare the provided password with the hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, user.password)
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid email or password.' })
-    }
-
-    // User authenticated, generate an access token
     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '15m', // Access token expires in 15 minutes
+      expiresIn: '15m',
     })
 
-    // Generate refresh token
     const refreshToken = generateRefreshToken()
 
-    // Update user's refresh token in the database
     user.refreshToken = refreshToken
     await user.save()
 
-    // Send the access token and refresh token in the response
     res.json({
       message: 'Login successful',
       user: {
