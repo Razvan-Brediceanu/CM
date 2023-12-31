@@ -20,6 +20,7 @@ const LoginForm = ({ setIsLoginPage }) => {
     const jwtToken = localStorage.getItem('jwtToken')
     if (jwtToken) {
       setIsLoggedIn(true)
+      navigate('/') // Redirect to home page when logged in
     }
   }, [])
 
@@ -33,16 +34,12 @@ const LoginForm = ({ setIsLoginPage }) => {
         throw new Error('Invalid email.')
       }
 
-      const response = await axios.post(
-        `${apiBaseURL}/user/login`, // Adjust the endpoint
-        loginData,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      const response = await axios.post(`${apiBaseURL}/user/login`, loginData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
       if (response.data && response.data.token) {
         localStorage.setItem('refreshToken', response.data.refreshToken)
@@ -61,6 +58,9 @@ const LoginForm = ({ setIsLoginPage }) => {
       )
     } finally {
       setIsLoading(false)
+      if (!loginError) {
+        navigate('/') // Redirect to home page when there is no login error
+      }
     }
   }
 
